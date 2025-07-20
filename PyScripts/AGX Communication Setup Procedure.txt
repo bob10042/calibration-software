@@ -1,0 +1,165 @@
+**AGX Communication Setup Procedure**
+
+This procedure provides step-by-step instructions to set up the AGX communication using **USB-LAN emulation mode**, **direct LAN connection**, and **USB-to-GPIB interface**. It includes all necessary settings for the AGX and your computer.
+
+---
+
+## **1. Requirements**
+Before beginning, ensure the following:
+- **AGX Power Source** powered on.
+- **USB Cable** (Type A to Type B or appropriate connector).
+- **Ethernet LAN Cable** (for direct LAN connection).
+- **USB-to-GPIB Adapter** (for GPIB communication).
+- A computer running **Windows 10/11** with administrator rights.
+
+---
+
+# **2. Setup: USB to USB (LAN Emulation Mode)**
+
+### **2.1 Steps on the AGX**
+1. **Enable LAN Emulation Mode on AGX:**
+   - On the AGX front panel:
+     - Press **SYST** (System Menu).
+     - Navigate to **INTERFACE SETUP**.
+     - Select **USB Device Interface**.
+     - Ensure **LAN Emulation** is **enabled**.
+   - The AGX will use a fixed virtual IP address: **192.168.123.1**.
+
+2. **Restart the AGX** (if necessary):
+   - After enabling the USB-LAN emulation mode, restart the AGX by powering it off and back on.
+
+### **2.2 Steps on the Computer**
+
+#### **2.2.1 Connect the AGX to the Computer**
+- Use a USB cable to connect the AGX's **USB port** to your computer.
+- Wait for the computer to detect the AGX. It may appear as a **File-Stor Gadget** or virtual network adapter.
+
+#### **2.2.2 Verify the Virtual Network Adapter**
+1. Open **Control Panel**:
+   - Press **Win + R**, type `control`, and press **Enter**.
+2. Navigate to **Network and Sharing Center**:
+   - Select **Change adapter settings**.
+3. Identify the new virtual network adapter:
+   - Look for an adapter named **Remote NDIS Compatible Device** or similar.
+
+#### **2.2.3 Configure the Computer's IP Address**
+1. Right-click on the **virtual network adapter** → Select **Properties**.
+2. Select **Internet Protocol Version 4 (TCP/IPv4)** → Click **Properties**.
+3. Manually set the IP address:
+   - **IP Address**: `192.168.123.2`  
+   - **Subnet Mask**: `255.255.255.0`  
+   - **Default Gateway**: Leave blank.
+   - **DNS Server**: Leave blank.
+4. Click **OK** to save the settings.
+
+#### **2.2.4 Test the Connection**
+1. Open **Command Prompt**:
+   - Press **Win + R**, type `cmd`, and press **Enter**.
+2. Type the following command and press **Enter**:
+   ```
+   ping 192.168.123.1
+   ```
+3. Verify that the AGX replies to the ping requests:
+   - If successful, you will see replies like this:
+     ```
+     Reply from 192.168.123.1: bytes=32 time<1ms TTL=64
+     ```
+
+### **2.3 Access the AGX Web Interface**
+1. Open a **web browser** (e.g., Chrome or Firefox).
+2. Enter the following address in the URL bar:
+   ```
+   http://192.168.123.1
+   ```
+3. Press **Enter**.
+4. The AGX web interface (LXI interface) should load.
+
+---
+
+# **3. Setup: Direct LAN to LAN Connection**
+
+### **3.1 Steps on the AGX**
+1. On the AGX front panel:
+   - Press **SYST** (System Menu).
+   - Navigate to **INTERFACE SETUP**.
+   - Select **LAN Interface**.
+2. Configure the LAN settings:
+   - Set **IP Mode** to **Static**.
+   - Enter the following:
+     - **IP Address**: `192.168.1.100` (example)
+     - **Subnet Mask**: `255.255.255.0`
+     - **Gateway**: Leave blank (optional for direct connection).
+3. Restart the AGX to apply changes.
+
+### **3.2 Steps on the Computer**
+1. Connect an Ethernet cable directly between your computer and the AGX.
+2. Open **Control Panel** → **Network and Sharing Center** → **Change adapter settings**.
+3. Right-click your **Ethernet adapter** → **Properties**.
+4. Select **Internet Protocol Version 4 (TCP/IPv4)** → Click **Properties**.
+5. Manually set the IP address:
+   - **IP Address**: `192.168.1.2` (any IP in the `192.168.1.x` range, except AGX's IP)
+   - **Subnet Mask**: `255.255.255.0`
+   - **Default Gateway**: Leave blank.
+6. Save the settings.
+
+### **3.3 Test the Connection**
+1. Open **Command Prompt**.
+2. Type:
+   ```
+   ping 192.168.1.100
+   ```
+3. Verify successful replies from the AGX.
+
+### **3.4 Access AGX Web Interface**
+- Open a web browser and enter the AGX IP:
+   ```
+   http://192.168.1.100
+   ```
+- The AGX web interface should load.
+
+---
+
+# **4. Setup: USB to GPIB**
+
+### **4.1 Requirements**
+- **USB-to-GPIB Adapter** (e.g., National Instruments GPIB-USB-HS).
+- **GPIB Cable**.
+- Driver software for the GPIB adapter (e.g., NI-VISA or Keysight I/O Libraries).
+
+### **4.2 Steps on the AGX**
+1. On the AGX front panel:
+   - Press **SYST** → **INTERFACE SETUP** → **GPIB Interface**.
+2. Set **GPIB Status** to **Enabled**.
+3. Set the **GPIB Address** (e.g., `1`).
+4. Restart the AGX to apply changes.
+
+### **4.3 Steps on the Computer**
+1. Install the GPIB adapter driver software.
+2. Connect the USB-to-GPIB adapter to your computer.
+3. Connect the GPIB adapter to the AGX using a **GPIB cable**.
+4. Open the driver software (e.g., NI MAX):
+   - Scan for connected GPIB devices.
+   - Verify the AGX appears with the correct GPIB address.
+
+### **4.4 Verify Communication**
+1. Open a terminal program or SCPI software.
+2. Send the SCPI command:
+   ```
+   *IDN?
+   ```
+3. The AGX should return its identification string.
+
+---
+
+## **5. Troubleshooting Summary**
+
+| **Issue**                       | **Solution**                                      |
+|--------------------------------|--------------------------------------------------|
+| Cannot ping AGX                | Check connections and IP settings. Restart AGX.  |
+| Web interface not loading      | Verify browser and network configuration.        |
+| GPIB device not recognized     | Check drivers, cables, and GPIB address.         |
+
+---
+
+**End of Procedure**
+

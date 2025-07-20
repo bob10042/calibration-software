@@ -1,0 +1,176 @@
+The **streaming commands** in the script are used to read and display data for each channel of the M2000 Power Analyzer. Here’s a detailed explanation of how the channels are selected, the commands used to read data, and how the data is displayed:
+
+---
+
+### **1. Channel Selection**
+The script iterates through channels 1-3 to read data from each channel. The channel selection is implicit in the `READ?` commands, where the channel number is specified as part of the command.
+
+#### **Channel Selection Command**
+- **Command**: `CHNL?,{channel}`
+  - Example: `CHNL?,1` for channel 1.
+- **Purpose**: Retrieves information about the specified channel.
+- **Usage**:
+  - The script sends this command before reading data from a channel to ensure the channel is available and active.
+  - If the response is `NF0`, it means the channel is not found or not available.
+
+---
+
+### **2. Streaming Commands**
+The script uses the `READ?` command to retrieve specific measurements for each channel. The `READ?` command is formatted as follows:
+
+#### **General Format**
+```
+READ?,{measurement_type},{channel},{additional_parameters}
+```
+
+#### **Measurement Types**
+| **Measurement Type** | **Command**                              | **Purpose**                                                                 |
+|-----------------------|------------------------------------------|-----------------------------------------------------------------------------|
+| Voltage              | `READ?,VOLTS,CH{channel},ACDC`           | Reads RMS voltage (AC or DC) for the specified channel.                     |
+| Current              | `READ?,AMPS,CH{channel},ACDC`            | Reads RMS current (AC or DC) for the specified channel.                     |
+| Power                | `READ?,WATTS,CH{channel}`                | Reads power for the specified channel.                                      |
+| Power Factor         | `READ?,PF,CH{channel}`                   | Reads power factor for the specified channel.                               |
+| Frequency            | `READ?,FREQ,CH{channel}`                 | Reads frequency for the specified channel.                                  |
+
+#### **Examples**
+- For **Channel 1**:
+  - Voltage: `READ?,VOLTS,CH1,ACDC`
+  - Current: `READ?,AMPS,CH1,ACDC`
+  - Power: `READ?,WATTS,CH1`
+  - Power Factor: `READ?,PF,CH1`
+  - Frequency: `READ?,FREQ,CH1`
+
+- For **Channel 2**:
+  - Voltage: `READ?,VOLTS,CH2,ACDC`
+  - Current: `READ?,AMPS,CH2,ACDC`
+  - Power: `READ?,WATTS,CH2`
+  - Power Factor: `READ?,PF,CH2`
+  - Frequency: `READ?,FREQ,CH2`
+
+---
+
+### **3. Data Display**
+The script reads the response from each `READ?` command and formats it into human-readable units using the `format_reading` function. Here’s how the data is displayed:
+
+#### **Formatting**
+- The `format_reading` function converts scientific notation values (e.g., `1.23E-3`) into readable units (e.g., `1.23 mV`).
+- The measurement type (e.g., `voltage`, `current`) determines the unit conversion.
+
+#### **Example Output**
+For **Channel 1**:
+```
+Reading Channel 1 (Status: Active)
+Hold time: 15 seconds
+------------------------------
+Reading #1
+Voltage: 123.4 mV
+Current: 56.7 mA
+Power: 7.89 mW
+Power Factor: 0.95
+Frequency: 50.0 Hz
+```
+
+For **Channel 2**:
+```
+Reading Channel 2 (Status: Active)
+Hold time: 15 seconds
+------------------------------
+Reading #1
+Voltage: 234.5 mV
+Current: 67.8 mA
+Power: 15.9 mW
+Power Factor: 0.92
+Frequency: 50.0 Hz
+```
+
+---
+
+### **4. Streaming Process**
+The `stream_measurements` function handles the streaming process. Here’s how it works:
+
+1. **Channel Loop**:
+   - Iterates through channels 1-3.
+2. **Channel Selection**:
+   - Sends the `CHNL?,{channel}` command to check if the channel is available.
+3. **Error Checking**:
+   - Calls `check_error` to ensure no errors occurred during channel selection.
+4. **Measurement Loop**:
+   - Takes multiple readings over a 15-second hold period.
+5. **Reading Commands**:
+   - Sends `READ?` commands for voltage, current, power, power factor, and frequency.
+6. **Formatting and Display**:
+   - Uses `format_reading` to format the measurements and prints them to the console.
+7. **Delay**:
+   - Waits 3 seconds between readings within the hold period.
+
+---
+
+### **5. Example Code Snippet**
+Here’s the relevant code from the `stream_measurements` function:
+
+```python
+def stream_measurements(self):
+    try:
+        while True:
+            print("\n" + "="*50)
+            print(f"Reading started at: {time.strftime('%H:%M:%S')}")
+            print("="*50)
+            
+            # Read channels 1-3
+            for channel in range(1, 4):
+                # Clear any pending data before reading channel
+                self.ser.reset_input_buffer()
+                self.ser.reset_output_buffer()
+                
+                channel_info = self.send_command(f'CHNL?,{channel}')
+                error = self.check_error()  # Check for errors after channel selection
+                
+                if error and error != "0":
+                    print(f"Error on channel {channel}: {error}")
+                    continue
+                    
+                if channel_info and channel_info != "NF0":  # Skip if channel not found
+                    print(f"\nReading Channel {channel} (Status: {channel_info})")
+                    print(f"Hold time: 15 seconds")
+                    print("-"*30)
+                    
+                    # Take multiple readings over the hold period
+                    start_time = time.time()
+                    readings_count = 0
+                    
+                    while time.time() - start_time < 15:  # 15 second hold time
+                        readings_count += 1
+                        print(f"\nReading #{readings_count}")
+                        
+                        # Use proper RDEF format from manual section 10.5.10
+                        volts = self.send_command(f'READ?,VOLTS,CH{channel},ACDC')  # RMS voltage
+                        amps = self.send_command(f'READ?,AMPS,CH{channel},ACDC')    # RMS current
+                        watts = self.send_command(f'READ?,WATTS,CH{channel}')       # Power
+                        pf = self.send_command(f'READ?,PF,CH{channel}')            # Power factor
+                        freq = self.send_command(f'READ?,FREQ,CH{channel}')        # Frequency
+                        
+                        print(f"Voltage: {self.format_reading(volts, 'voltage')}")
+                        print(f"Current: {self.format_reading(amps, 'current')}")
+                        print(f"Power: {self.format_reading(watts, 'power')}W")
+                        print(f"Power Factor: {self.format_reading(pf, 'pf')}")
+                        print(f"Frequency: {self.format_reading(freq, 'freq')}Hz")
+                        
+                        time.sleep(3)  # Wait 3 seconds between readings within the hold period
+                else:
+                    print(f"\nChannel {channel}: Not available or not found")
+            
+            print("\nPress Ctrl+C to stop streaming...")
+            
+    except KeyboardInterrupt:
+        print("\nMeasurement streaming stopped.")
+```
+
+---
+
+### **6. Summary**
+- **Channel Selection**: The `CHNL?,{channel}` command is used to check if a channel is available.
+- **Streaming Commands**: The `READ?` command is used to retrieve voltage, current, power, power factor, and frequency for each channel.
+- **Data Display**: The `format_reading` function converts raw data into human-readable units and prints it to the console.
+- **Streaming Process**: The script iterates through channels 1-3, takes multiple readings over a 15-second hold period, and waits 3 seconds between readings.
+
+This process ensures that data is read and displayed in real-time for each active channel. Let me know if you need further clarification!

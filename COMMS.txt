@@ -1,0 +1,35 @@
+Here's how to set up the software for LAN, USB, and GPIB communications based on the AGX Series Operation Manual:
+
+### 1. **LAN (Ethernet) Interface Setup**:
+- **Access the Interface Setup**:
+  Navigate to the `LAN INTERFACE SETUP` screen via the `INTERFACE SETUP` menu.
+- **Configuration Options**:
+  - **Automatic IP Configuration**: Enable if a DHCP server is available. An IP address will be automatically assigned.
+  - **Static IP Configuration**:
+    - Set unique IP address for the network.
+    - Configure the subnet mask, gateway, and DNS as per the network's settings.
+  - **Port Number**: Typically set to 5025 for instrument communication.
+- **Caution**:
+  Do not connect the LAN port to a Power over Ethernet (PoE) port, as it can damage the LAN interface.
+
+### 2. **USB Interface Setup**:
+- **Driver Installation**:
+  Install the USB drivers provided in the “Driver_Installer.exe” file under the “Windows” directory. Upon successful installation, two drivers will appear in Device Manager under "Network Adapters" and "Ports (COM & LPT)".
+- **Configuration Options**:
+  - Enable the virtual serial port for PC control.
+  - Use the virtual IP address `192.168.123.1` for the USB-LAN emulation mode.
+  - Any changes require a system reboot to take effect.
+
+### 3. **GPIB Interface Setup**:
+- **Configuration Steps**:
+  - Enable or disable the GPIB interface using the `GPIB INTERFACE SETUP` screen.
+  - Set the GPIB address within the range of 1–30 (default is 1).
+  - For optimal operation, disable the GPIB interface if not in use to prevent erroneous interrupts.
+- **Connection Details**:
+  Use an IEEE488.1 standard 24-pin D-Shell Amphenol connector. Ensure no obstruction to other interfaces when connecting.
+
+### Additional Notes:
+- Ensure access control is appropriately set to avoid unauthorized or hazardous remote operation of the power source.
+- For browser-based LAN control, confirm the appropriate IP address and access permissions. Use a supported browser like Chrome or Firefox for full functionality.
+
+These steps should ensure proper communication setup for the AGX Series. Let me know if you need further details on any specific section!

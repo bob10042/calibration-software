@@ -1,0 +1,204 @@
+import hid
+import time
+
+def auto_select_hid_device():
+    """
+    Automatically selects the first available HID device matching the APS M2000.
+
+    Returns:
+        dict: The dictionary containing vendor ID and product ID, or None if no device is found.
+    """
+    devices = hid.enumerate()
+    for device in devices:
+        if device['vendor_id'] == 0x10C4 and device['product_id'] == 0xEA80:  # Example VID and PID for the APS M2000
+            print(f"Auto-selected HID device: {device}")
+            return device
+    print("No HID devices matching the APS M2000 were found.")
+    return None
+
+def setup_hid_device(device):
+    """
+    Sets up the HID device for communication with the APS M2000 Power Analyzer.
+
+    Parameters:
+        device (dict): The HID device dictionary containing vendor ID and product ID.
+
+    Returns:
+        hid.device: Configured HID device object.
+    """
+    try:
+        hid_device = hid.device()
+        hid_device.open(device['vendor_id'], device['product_id'])
+        print("HID device opened successfully.")
+        return hid_device
+    except Exception as e:
+        print(f"Error opening HID device: {e}")
+        return None
+
+def send_command(hid_device, command):
+    """
+    Sends a command to the APS M2000 and reads the response.
+
+    Parameters:
+        hid_device (hid.device): Configured HID device object.
+        command (str): SCPI command to send.
+
+    Returns:
+        str: Response from the device or error message.
+    """
+    try:
+        hid_device.write(command.encode() + b'\n')
+        time.sleep(0.1)  # Allow some time for the device to respond
+        response = hid_device.read(64).decode().strip()
+        if response.startswith("ERR"):
+            print(f"Device error: {response}")
+        return response
+    except Exception as e:
+        print(f"Error sending command {command}: {e}")
+        return None
+
+def check_errors(hid_device):
+    """
+    Checks the device for any error messages.
+
+    Parameters:
+        hid_device (hid.device): Configured HID device object.
+
+    Returns:
+        list: List of error messages from the device.
+    """
+    errors = []
+    try:
+        response = send_command(hid_device, "SYST:ERR?")
+        while response != "0,\"No error\"":
+            errors.append(response)
+            response = send_command(hid_device, "SYST:ERR?")
+        return errors
+    except Exception as e:
+        print(f"Error checking device errors: {e}")
+        return errors
+
+def initialize_device(hid_device, mode="voltage"):
+    """
+    Initializes the APS M2000 device by sending necessary setup commands.
+
+    Parameters:
+        hid_device (hid.device): Configured HID device object.
+        mode (str): Measurement mode, either "voltage" or "current".
+
+    Returns:
+        bool: True if initialization is successful, False otherwise.
+    """
+    try:
+        # Clear any previous errors or states
+        print("Clearing errors...")
+        send_command(hid_device, "*CLS")
+
+        # Reset the device
+        print("Resetting device...")
+        send_command(hid_device, "*RST")
+
+        # Set the device to remote mode
+        print("Setting to remote mode...")
+        send_command(hid_device, "SYSTEM:REMOTE")
+
+        # Configure measurement channels based on mode
+        print(f"Configuring measurement channels for {mode}...")
+        if mode == "voltage":
+            send_command(hid_device, "MEAS:VOLTAGE:ACDC CH1")
+            send_command(hid_device, "MEAS:VOLTAGE:ACDC CH2")
+            send_command(hid_device, "MEAS:VOLTAGE:ACDC CH3")
+        elif mode == "current":
+            send_command(hid_device, "MEAS:CURRENT:ACDC CH1")
+            send_command(hid_device, "MEAS:CURRENT:ACDC CH2")
+            send_command(hid_device, "MEAS:CURRENT:ACDC CH3")
+        else:
+            print("Invalid mode specified.")
+            return False
+
+        # Set integration period (if needed)
+        print("Setting integration period...")
+        send_command(hid_device, "CONF:INTEGRATION 0.01")
+
+        # Check if the device is ready
+        print("Checking device status...")
+        response = send_command(hid_device, "*OPC?")
+        if response == "1":
+            print("Device initialization successful.")
+            return True
+        else:
+            print("Device initialization failed.")
+            return False
+    except Exception as e:
+        print(f"Error during initialization: {e}")
+        return False
+
+def read_measurements(hid_device, channels, mode="voltage"):
+    """
+    Reads measurements (voltage or current) from specified channels.
+
+    Parameters:
+        hid_device (hid.device): Configured HID device object.
+        channels (list): List of channel numbers to read from.
+        mode (str): Measurement mode, either "voltage" or "current".
+
+    Returns:
+        dict: Channel numbers as keys and readings as values.
+    """
+    measurements = {}
+    command_prefix = "MEAS:VOLTAGE:ACDC?" if mode == "voltage" else "MEAS:CURRENT:ACDC?"
+    for channel in channels:
+        command = f"{command_prefix} CH{channel}"
+        response = send_command(hid_device, command)
+        if response is not None:
+            try:
+                measurements[channel] = f"{float(response):.3f}"  # Format to 3 decimal places
+            except ValueError:
+                measurements[channel] = "Invalid Response"
+        else:
+            measurements[channel] = "Error"
+    return measurements
+
+def stream_measurements(hid_device, channels, mode="voltage"):
+    """
+    Continuously streams measurements (voltage or current) until the user terminates.
+
+    Parameters:
+        hid_device (hid.device): Configured HID device object.
+        channels (list): List of channel numbers to read from.
+        mode (str): Measurement mode, either "voltage" or "current".
+    """
+    try:
+        print(f"Starting {mode} streaming. Press Ctrl+C to stop.")
+        while True:
+            measurement_readings = read_measurements(hid_device, channels, mode)
+            print(f"\nMeasured {mode.capitalize()}s:")
+            for channel, measurement in measurement_readings.items():
+                print(f"Channel {channel}: {measurement} {'V' if mode == 'voltage' else 'A'}")
+            time.sleep(1)  # Delay between readings
+    except KeyboardInterrupt:
+        print(f"\n{mode.capitalize()} streaming stopped by user.")
+
+if __name__ == "__main__":
+    # Automatically select an HID device
+    selected_device = auto_select_hid_device()
+
+    if selected_device:
+        # Configure HID device
+        hid_device = setup_hid_device(selected_device)
+
+        if hid_device:
+            # Choose mode (voltage or current)
+            mode = input("Enter measurement mode (voltage/current): ").strip().lower()
+
+            # Initialize the device
+            if initialize_device(hid_device, mode=mode):
+                # List of channels to read from
+                channels = [1, 2, 3]
+
+                # Stream measurements continuously until the user stops
+                stream_measurements(hid_device, channels, mode=mode)
+
+            # Close the HID device
+            hid_device.close()
+            print("HID device closed.")

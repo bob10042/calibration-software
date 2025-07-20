@@ -1,0 +1,47 @@
+
+AGX Machine Communication Setup - Required Drivers and Configuration
+
+1. Required Drivers
+-------------------
+   a. USB Drivers:
+      - Virtual COM Driver: Enables communication through a virtual serial port (COMx).
+      - Network Driver: Enables communication via a virtual IP address, supporting built-in web server functions.
+
+   Installation Process:
+      1. Connect the AGX USB port to the PC with a USB cable.
+      2. The PC should detect the AGX and automatically install the drivers.
+      3. If not installed automatically:
+         - Open the “drivers” directory on the detected USB drive.
+         - Navigate to the “Windows” subdirectory.
+         - Run `Driver_Installer.exe`.
+
+   b. LAN Configuration:
+      - The AGX conforms to the LXI (LAN eXtensions for Instrumentation) standard.
+      - Obtain an IP address via DHCP or assign a fixed IP address for consistency.
+
+   c. GPIB Drivers:
+      - IEEE488.1 standard GPIB driver libraries (e.g., NI-488.2 or equivalent).
+
+2. Communication Setup
+-----------------------
+   a. USB Connection:
+      - Enable USB Virtual COM Port:
+        SYSTem:COMMunicate:USB:VIRTualport[:ENABle] 1
+      - Check Status:
+        SYSTem:COMMunicate:USB:VIRTualport[:ENABle]?
+
+   b. LAN Connection:
+      - Enable LAN Interface:
+        SYSTem:COMMunicate:LAN:STATus?
+      - Optional: Assign Fixed IP:
+        SYSTem:COMMunicate:LAN:ADDress <IP Address>
+
+   c. GPIB Connection:
+      - Enable GPIB Interface:
+        SYSTem:COMMunicate:GPIB:ENABle 1
+      - Check GPIB Address:
+        SYSTem:COMMunicate:GPIB:ADDress?
+
+3. Notes:
+   - Ensure the AGX is powered on and connected to the PC before installation.
+   - Verify that compatible drivers for USB, LAN, or GPIB are installed.

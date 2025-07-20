@@ -1,0 +1,120 @@
+# APS M2000 Voltage Measurement Routine
+
+## Overview
+This document provides a step-by-step SCPI-based routine to initialize the APS M2000 Power Analyzer and set it up for voltage measurements on one or more channels. The routine includes initialization, configuration, and measurement retrieval.
+
+---
+
+## 1. Initialization
+Before configuring the analyzer for voltage measurement, perform the following steps to ensure the device is ready:
+
+```plaintext
+*CLS      // Clear previous states and errors
+*RST      // Reset the device to its default state
+REMOTE    // Enable remote mode for SCPI control
+```
+
+---
+
+## 2. Configuring Channels for Voltage Measurement
+
+### **Step 1: Select a Channel**
+Specify the channel to configure:
+```plaintext
+CHAN <n>   // n = 1, 2, 3, or 4 (select the desired channel)
+```
+
+### **Step 2: Set Voltage Range**
+Define the input voltage range for the selected channel:
+```plaintext
+VOLT:RANGE <value>   // e.g., 10, 100, 1000 V
+```
+
+### **Step 3: Save Configuration**
+Apply the changes and save the configuration:
+```plaintext
+SAVECONFIG
+```
+
+Repeat **Step 1** through **Step 3** for all desired channels (e.g., CHAN 1, CHAN 2, CHAN 3).
+
+---
+
+## 3. Start Data Logging
+Enable data logging to begin capturing measurement data:
+```plaintext
+DATALOG 1
+```
+
+---
+
+## 4. Retrieve Voltage Measurements
+Query the measured voltage on each configured channel:
+
+### **Example Commands for Three Channels**
+```plaintext
+CHAN 1
+MEAS:VOLT?   // Retrieve voltage for Channel 1
+
+CHAN 2
+MEAS:VOLT?   // Retrieve voltage for Channel 2
+
+CHAN 3
+MEAS:VOLT?   // Retrieve voltage for Channel 3
+```
+
+---
+
+## 5. Example Routine
+Below is an example routine to configure and measure voltage on Channels 1, 2, and 3:
+
+```plaintext
+// Initialization
+*CLS
+*RST
+REMOTE
+
+// Configure Channels
+CHAN 1
+VOLT:RANGE 100
+SAVECONFIG
+
+CHAN 2
+VOLT:RANGE 100
+SAVECONFIG
+
+CHAN 3
+VOLT:RANGE 100
+SAVECONFIG
+
+// Start Data Logging
+DATALOG 1
+
+// Retrieve Measurements
+CHAN 1
+MEAS:VOLT?
+
+CHAN 2
+MEAS:VOLT?
+
+CHAN 3
+MEAS:VOLT?
+```
+
+---
+
+## 6. Troubleshooting Tips
+
+1. **Ensure Device is in Remote Mode**:
+   - Verify the device accepts SCPI commands by entering `REMOTE`.
+
+2. **Check Connection Settings**:
+   - Verify communication parameters (e.g., RS232, USB, or LAN).
+
+3. **Syntax Validation**:
+   - SCPI commands are case-insensitive but must end with a newline character (`\n`).
+
+---
+
+For further assistance, refer to the APS M2000 manual or contact Adaptive Power Systems technical support.
+

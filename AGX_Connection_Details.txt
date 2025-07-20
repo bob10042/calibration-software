@@ -1,0 +1,60 @@
+
+AGX Machine Communication Setup and Auto-Detection Details
+===========================================================
+
+1. Connection Setup Commands
+-----------------------------
+   a. USB Communication:
+      - Enable virtual COM port:
+        SYSTem:COMMunicate:USB:VIRTualport[:ENABle] 1
+      - Query the status of the virtual COM port:
+        SYSTem:COMMunicate:USB:VIRTualport[:ENABle]?
+
+   b. LAN Communication:
+      - Enable the LAN communication interface:
+        SYSTem:COMMunicate:USB:LAN[:ENABle] 1
+      - Query the LAN status and settings:
+        SYSTem:COMMunicate:LAN:STATus?
+        (Returns: IP address, Subnet mask, Gateway, etc.)
+      - Use DHCP to get IP:
+        SYSTem:COMMunicate:LAN:DHCP[:ENABle] 1
+      - Renew DHCP lease:
+        SYSTem:COMMunicate:LAN:DHCP:RENEW
+
+   c. GPIB Communication:
+      - Enable GPIB interface:
+        SYSTem:COMMunicate:GPIB:ENABle 1
+      - Query the GPIB address:
+        SYSTem:COMMunicate:GPIB:ADDress?
+
+2. Auto-Detection Logic
+------------------------
+   a. Query all three interfaces sequentially to detect which is active.
+      Example:
+      - Check USB:
+        SYSTem:COMMunicate:USB:VIRTualport[:ENABle]?
+      - Check LAN:
+        SYSTem:COMMunicate:LAN:STATus?
+      - Check GPIB:
+        SYSTem:COMMunicate:GPIB:ENABle?
+
+   b. Based on the response, update the UI to show the detected communication mode.
+
+3. Example SCPI Commands
+-------------------------
+   - Enable all interfaces:
+     SYSTem:COMMunicate:USB:VIRTualport[:ENABle] 1
+     SYSTem:COMMunicate:USB:LAN[:ENABle] 1
+     SYSTem:COMMunicate:GPIB:ENABle 1
+   - Query active interface:
+     *IDN? (to identify connected device)
+   - Set fixed IP for LAN:
+     SYSTem:COMMunicate:LAN:ADDress <IP Address>
+   - Retrieve current LAN configuration:
+     SYSTem:COMMunicate:LAN:STATus?
+
+4. Notes:
+---------
+   - Ensure the AGX is powered on and connected to the PC.
+   - Verify that the necessary USB, GPIB, or Ethernet drivers are installed on the PC.
+

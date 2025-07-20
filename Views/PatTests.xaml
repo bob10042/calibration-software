@@ -1,0 +1,106 @@
+<UserControl x:Class="AGXCalibrationUI.Views.PatTests"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AGXCalibrationUI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="PAT Tests" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Margin="0,0,0,20"/>
+            
+            <!-- Test Configuration -->
+            <GroupBox Header="Test Configuration">
+                <StackPanel Margin="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Text="Test Type:" 
+                                 Grid.Row="0" Grid.Column="0" 
+                                 Margin="0,5,10,5"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1" 
+                                 Margin="0,5">
+                            <ComboBoxItem Content="Class I"/>
+                            <ComboBoxItem Content="Class II"/>
+                            <ComboBoxItem Content="Extension Lead"/>
+                        </ComboBox>
+                        
+                        <TextBlock Text="Current Rating:" 
+                                 Grid.Row="1" Grid.Column="0" 
+                                 Margin="0,5,10,5"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                Margin="0,5"/>
+                        
+                        <TextBlock Text="Test Duration:" 
+                                 Grid.Row="2" Grid.Column="0" 
+                                 Margin="0,5,10,5"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" 
+                                Margin="0,5"/>
+                    </Grid>
+                    
+                    <Button Content="Start Test" 
+                            Margin="0,10,0,0"
+                            Padding="20,5"
+                            HorizontalAlignment="Left"/>
+                </StackPanel>
+            </GroupBox>
+            
+            <!-- Test Progress -->
+            <GroupBox Header="Test Progress" Margin="0,10">
+                <StackPanel Margin="10">
+                    <ProgressBar Height="20" 
+                                Margin="0,5"/>
+                    <TextBlock x:Name="TestStatus"
+                               Text="Ready"
+                               Margin="0,5"/>
+                </StackPanel>
+            </GroupBox>
+            
+            <!-- Test Results -->
+            <GroupBox Header="Results" Margin="0,10">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="Test" FontWeight="Bold"/>
+                        <TextBlock Text="Result" Grid.Column="1" FontWeight="Bold"/>
+                        <TextBlock Text="Status" Grid.Column="2" FontWeight="Bold"/>
+                    </Grid>
+                    
+                    <ListView Grid.Row="1" 
+                              Height="150"
+                              Margin="0,5,0,0">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Test" Width="200"/>
+                                <GridViewColumn Header="Result" Width="100"/>
+                                <GridViewColumn Header="Status" Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

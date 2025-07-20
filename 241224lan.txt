@@ -1,0 +1,251 @@
+#!/usr/bin/env python3
+"""
+APSM2000 (M2000 Series) LAN Streaming Example
+
+- Connects via TCP/IP to the APSM2000 at a specified IP and port (default 10733).
+- Continuously queries AC/DC voltages from 3 channels (CH1, CH2, CH3).
+- Displays them in the console with 3 decimal places.
+- Includes basic error handling and logging.
+
+Press Ctrl+C to stop streaming.
+"""
+
+import socket
+import time
+import sys
+import logging
+
+#########################
+# 1) Logging Setup
+#########################
+def setup_logger(debug=False):
+    """
+    Sets up a global logger with console output.
+    If debug=True, sets level to DEBUG; otherwise INFO.
+    """
+    logger = logging.getLogger("APSM2000_LAN")
+    logger.setLevel(logging.DEBUG if debug else logging.INFO)
+
+    # Clear old handlers
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    ch = logging.StreamHandler(sys.stdout)
+    ch.setLevel(logging.DEBUG if debug else logging.INFO)
+
+    formatter = logging.Formatter(
+        fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+    return logger
+
+# Initialize a module-level logger (default INFO level)
+logger = setup_logger(debug=False)
+
+
+#########################
+# 2) LAN I/O Helper Class
+#########################
+class APSM2000_LAN:
+    """
+    Encapsulates a TCP socket connection to the APSM2000 over LAN.
+    Provides open/close, write_line, read_line methods, with error handling.
+    """
+
+    def __init__(self, ip_address="192.168.1.100", port=10733, debug=False):
+        self.ip_address = ip_address
+        self.port       = port
+        self.sock       = None
+        # If debug=True, set logger to DEBUG
+        if debug:
+            setup_logger(debug=True)
+
+    def open(self, timeout=2.0):
+        """
+        Opens a TCP socket to the APSM2000 at ip_address:port.
+        """
+        logger.info(f"Connecting to APSM2000 at {self.ip_address}:{self.port} ...")
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.settimeout(timeout)
+        try:
+            self.sock.connect((self.ip_address, self.port))
+            logger.info("Successfully connected.")
+        except socket.timeout:
+            logger.error(f"Socket timed out attempting connection to {self.ip_address}:{self.port}")
+            raise
+        except Exception as ex:
+            logger.error(f"Error connecting to {self.ip_address}:{self.port}: {ex}")
+            raise
+
+    def close(self):
+        """
+        Closes the TCP connection.
+        """
+        if self.sock:
+            logger.info("Closing socket connection.")
+            try:
+                self.sock.close()
+            except Exception as ex:
+                logger.warning(f"Error closing socket: {ex}")
+            self.sock = None
+
+    def write_line(self, command_str):
+        """
+        Sends a single line (ASCII) with trailing newline over the socket.
+        """
+        if not self.sock:
+            raise IOError("Socket is not open.")
+
+        msg = (command_str + "\n").encode("ascii")
+        logger.debug(f"Sending: {command_str}")
+        try:
+            self.sock.sendall(msg)
+        except Exception as ex:
+            logger.error(f"Error sending data: {ex}")
+            raise
+
+    def read_line(self, timeout_sec=2.0):
+        """
+        Reads until newline or until timeout.
+        Returns the line as a string, without the trailing newline.
+        """
+        if not self.sock:
+            raise IOError("Socket is not open.")
+
+        self.sock.settimeout(timeout_sec)
+        line_buf = bytearray()
+        try:
+            while True:
+                chunk = self.sock.recv(256)
+                if not chunk:
+                    # Connection closed or no data
+                    logger.warning("Socket recv returned empty data (connection closed?).")
+                    break
+                line_buf.extend(chunk)
+                if b'\n' in chunk:
+                    break
+        except socket.timeout:
+            raise TimeoutError("read_line timed out waiting for data.")
+        except Exception as ex:
+            logger.error(f"Error receiving data: {ex}")
+            raise
+
+        # Split at first newline
+        line, _, _ = line_buf.partition(b'\n')
+        out_line = line.decode('ascii', errors='replace').strip()
+        logger.debug(f"Received: {out_line}")
+        return out_line
+
+
+##########################################
+# 3) Main Streaming Function (CLI Display)
+##########################################
+def stream_three_channels(
+    ip_address="192.168.1.100",
+    port=10733,
+    poll_interval=1.0,
+    debug=False
+):
+    """
+    1) Connects to the APSM2000 at ip_address:port via LAN.
+    2) Sends *CLS to clear interface.
+    3) Continuously queries the AC+DC voltages on CH1, CH2, CH3.
+    4) Prints them to the CLI with 3 decimal places.
+    5) Stops on Ctrl+C.
+    """
+
+    # Adjust global logger if debug
+    global logger
+    logger = setup_logger(debug=debug)
+
+    # The read command to get AC+DC from channels 1,2,3
+    read_command = "READ? VOLTS:CH1:ACDC, VOLTS:CH2:ACDC, VOLTS:CH3:ACDC"
+
+    # Create the LAN object
+    m2000 = APSM2000_LAN(ip_address=ip_address, port=port, debug=debug)
+
+    try:
+        # 1) Open the connection
+        m2000.open(timeout=5.0)
+
+        # 2) Clear interface
+        m2000.write_line("*CLS")
+
+        # Optional: lock out front panel
+        # m2000.write_line("LOCKOUT")
+
+        # Example: you can query the ID
+        # m2000.write_line("*IDN?")
+        # idn_resp = m2000.read_line(timeout_sec=2.0)
+        # logger.info(f"Instrument IDN: {idn_resp}")
+
+        logger.info("Press Ctrl+C to stop streaming.")
+        print(f"{'Time(s)':>8} | {'Volt1':>10} | {'Volt2':>10} | {'Volt3':>10}")
+
+        start_time = time.time()
+
+        while True:
+            try:
+                # 3) Send the read command
+                m2000.write_line(read_command)
+                # 4) Read the response
+                resp_line = m2000.read_line(timeout_sec=2.0)
+                # Typically: "+1.23456E+01,+2.34567E+01,+3.45678E+01"
+
+                parts = resp_line.split(',')
+                if len(parts) < 3:
+                    logger.warning(f"Incomplete response: {resp_line}")
+                    continue
+
+                # Parse floats
+                try:
+                    v1 = float(parts[0])
+                    v2 = float(parts[1])
+                    v3 = float(parts[2])
+                except ValueError as ve:
+                    logger.warning(f"Could not parse floats from '{resp_line}': {ve}")
+                    continue
+
+                elapsed_s = time.time() - start_time
+                # Print with 3 decimal places
+                print(f"{elapsed_s:8.2f} | {v1:10.3f} | {v2:10.3f} | {v3:10.3f}")
+
+                time.sleep(poll_interval)
+
+            except TimeoutError as tex:
+                logger.error(f"Timeout reading data: {tex}")
+            except Exception as ex:
+                logger.error(f"Unexpected error in streaming loop: {ex}", exc_info=True)
+                # You may continue or break
+                # break
+
+    except KeyboardInterrupt:
+        logger.info("User pressed Ctrl+C. Stopping streaming.")
+    except Exception as e:
+        logger.error(f"Critical error: {e}", exc_info=True)
+    finally:
+        # Optionally go local
+        # m2000.write_line("LOCAL")
+        m2000.close()
+        logger.info("Stopped streaming from APSM2000.")
+
+
+####################
+# 4) If Run as Main
+####################
+if __name__ == "__main__":
+    # Adjust these as desired
+    IP_ADDRESS    = "192.168.1.100"  # or whatever the M2000 is assigned
+    PORT          = 10733           # default M2000 LAN port
+    POLL_INTERVAL = 1.0             # seconds
+    DEBUG_MODE    = False           # set True for detailed logs
+
+    stream_three_channels(
+        ip_address=IP_ADDRESS,
+        port=PORT,
+        poll_interval=POLL_INTERVAL,
+        debug=DEBUG_MODE
+    )

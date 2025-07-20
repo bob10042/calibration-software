@@ -1,0 +1,5 @@
+pyvisa>=1.13.0
+pyvisa-py>=0.7.0
+requests>=2.31.0
+netifaces>=0.11.0
+hidapi>=0.14.0

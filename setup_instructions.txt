@@ -1,0 +1,27 @@
+APS M2000 USB Setup Instructions
+
+1. Hardware Setup:
+   - Ensure the APS M2000 is powered on
+   - Connect the USB cable between the APS M2000 and your computer
+
+2. Driver Installation:
+   - Download the Silicon Labs CP210x USB to UART Bridge VCP Drivers:
+     https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers
+   - Run the installer for Windows
+   - Restart your computer after installation
+
+3. Verify Connection:
+   - Open Device Manager (right-click Start button -> Device Manager)
+   - Look under "Ports (COM & LPT)"
+   - You should see "Silicon Labs CP210x USB to UART Bridge (COM#)"
+   - Note the COM port number for future reference
+
+4. Test Connection:
+   - After completing the above steps, run the Python script again:
+     python aps_usb_setup.py
+
+If you continue to have issues:
+- Try a different USB port
+- Check if the USB cable is working properly
+- Verify the APS M2000 is in the correct communication mode
+- Check the device manual for any specific USB communication settings

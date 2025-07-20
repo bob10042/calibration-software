@@ -1,0 +1,109 @@
+Here's a detailed readme of our troubleshooting efforts to communicate with the APS M2000 Power Analyzer:
+
+# M2000 Power Analyzer RS232 Communication Project
+
+## Overview
+We've been working to establish reliable RS232 communication with an APS M2000 Power Analyzer to read voltage measurements from multiple channels. The device has three channels configured as follows:
+- CHNL1:AD Serial: 001122
+- CHNL2:AD Serial: 001136  
+- CHNL3:AD Serial: 001135
+
+## Progress Made
+
+### Successful Communication
+- Established basic RS232 communication at 115200 baud
+- Confirmed device identity with successful *IDN? query 
+- Successfully entering Remote mode on device
+- Successfully configuring the device mode (Single VPA mode)
+- MCR? (Measurement Completion Register) queries returning valid responses
+
+### Communication Parameters
+```python
+# Working RS232 Configuration
+port='COM5'
+baudrate=115200
+bytesize=serial.EIGHTBITS
+parity=serial.PARITY_NONE  
+stopbits=serial.STOPBITS_ONE
+rtscts=True  # Hardware flow control
+```
+
+### Working Commands
+The following commands have been confirmed working:
+```python
+'*CLS'      # Clear interface
+'*RST'      # Reset device
+'*IDN?'     # Get device ID
+'EDITCONFIG' # Enter configuration mode
+'MODE,0'    # Set single VPA mode 
+'SAVECONFIG' # Save configuration
+'MCR?'      # Query measurement completion
+```
+
+### Current Challenge
+- Unable to successfully read voltage measurements
+- Getting error code 7 ("An invalid interface command was found") when attempting various READ? command formats
+- Device shows "unknown command" on display during some read attempts
+
+## Attempted Read Formats
+We've tried multiple formats based on the manual's RDEF (Read Definition Field) specification:
+```python
+'READ?VOLTS:CH1:ACDC'
+'READ?VOLTS:CH1:DC'
+'READ?V:CH1:COUPLED'
+'READ?VOLTS:1:COUPLED'
+'READ?V:VPA1:COUPLED'
+'READ?VOLTS:CH1,ACDC'
+'READ?V,CH1'
+'READ?FREQ,CH1'
+'READ?VOLTS:VPA1'
+'READ?V,1'
+```
+
+## Manual Reference Points
+- Command syntax details: Page 249
+- RDEF format specification: Page 266-267
+- Error codes: Page 249 (Error 7 = "An invalid interface command was found")
+- Remote control section: Section 10 (starting page 232)
+
+## Next Steps to Try
+1. Further investigation of correct READ command format
+2. Query additional status information:
+   - VPA configuration
+   - Channel assignments
+   - Range settings
+3. Try simpler measurement queries
+4. Verify channel configuration and mapping
+5. Check if range settings need to be explicitly set
+6. Monitor front panel for more detailed error information
+
+## Working Code Structure
+```python
+def init_m2000():
+    # Initialize and configure device
+    
+def send_command(ser, cmd):
+    # Send command and receive response
+    
+def read_measurements(ser):
+    # Attempt to read measurements
+    
+def main():
+    # Main program flow
+```
+
+## Open Questions
+1. Is there a simpler format for the READ command?
+2. Do we need to set ranges explicitly?
+3. Is the VPA configuration correct?
+4. Are all channels properly mapped?
+
+## Next Testing Session
+Plans for next testing session:
+1. Verify channel configuration with CHNL? queries
+2. Test simpler READ formats
+3. Monitor front panel for more detailed feedback
+4. Try reading other parameters (frequency, power) to verify command format
+5. Check if range settings need adjustment
+
+Would you like me to elaborate on any of these points or add additional details to the readme?

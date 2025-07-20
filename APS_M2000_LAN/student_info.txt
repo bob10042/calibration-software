@@ -1,0 +1,4 @@
+Student Information:
+ID: 1001
+Name: John Doe
+GPA: 3.85

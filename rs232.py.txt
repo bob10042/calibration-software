@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+import serial
+import time
+
+def main():
+    port_name = "COM5"       # Adjust to your actual COM port
+    baud_rate = 115200
+
+    ser = serial.Serial()
+    ser.port = port_name
+    ser.baudrate = baud_rate
+    ser.bytesize = serial.EIGHTBITS
+    ser.parity = serial.PARITY_NONE
+    ser.stopbits = serial.STOPBITS_ONE
+    ser.timeout = 1.0
+
+    # If M2000 is set for no flow control:
+    ser.rtscts = False
+    # If M2000 needs DTR:
+    ser.dtr = True
+
+    try:
+        ser.open()
+        print(f"Opened {port_name} at {baud_rate} baud.")
+
+        # Attempt a known command
+        send_command(ser, "*CLS")
+        time.sleep(0.2)
+
+        # Try reading just CH1
+        send_command(ser, "READ? VOLTS:CH1")
+        time.sleep(0.2)
+        resp = read_line(ser)
+        if resp:
+            print(f"Response: '{resp}'")
+        else:
+            print("No response or 'Unknown Command' on M2000?")
+
+    except KeyboardInterrupt:
+        pass
+    finally:
+        if ser.is_open:
+            ser.close()
+            print("Serial port closed.")
+
+def send_command(ser, cmd):
+    full_cmd = (cmd + "\n").encode('ascii')
+    ser.write(full_cmd)
+    print(f"Sent: {cmd}")
+
+def read_line(ser):
+    try:
+        line = ser.readline().decode('ascii', errors='replace').strip()
+        return line
+    except:
+        return ""
+
+if __name__ == "__main__":
+    main()

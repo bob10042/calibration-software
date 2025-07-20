@@ -1,0 +1,263 @@
+<Window x:Class="AGXCalibrationUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AGXCalibrationUI"
+        xmlns:views="clr-namespace:AGXCalibrationUI.Views"
+        xmlns:viewmodels="clr-namespace:AGXCalibrationUI.ViewModels"
+        xmlns:converters="clr-namespace:AGXCalibrationUI.Converters"
+        mc:Ignorable="d"
+        Title="AGX Machine Control UI" Height="600" Width="1000">
+    
+    <Window.DataContext>
+        <viewmodels:CommunicationsViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Menu -->
+        <StackPanel Grid.Column="0" Background="#0078D7">
+            <TextBlock Text="Menu" 
+                      Foreground="White" 
+                      FontSize="24" 
+                      Margin="20,20,20,40"
+                      HorizontalAlignment="Left"/>
+            
+            <Button Content="Connect" 
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding NavigateCommand}" 
+                    CommandParameter="Connect"/>
+            
+            <Button Content="Calibration" 
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding NavigateCommand}" 
+                    CommandParameter="Calibration"/>
+            
+            <Button Content="Excel Data" 
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding NavigateCommand}" 
+                    CommandParameter="ExcelData"/>
+            
+            <Button Content="Automated Tests" 
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding NavigateCommand}" 
+                    CommandParameter="AutomatedTests"/>
+
+            <Button Content="Pat Tests" 
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding NavigateCommand}" 
+                    CommandParameter="PatTests"/>
+            
+            <Button Content="PPS Tests" 
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding NavigateCommand}" 
+                    CommandParameter="PpsTests"/>
+            
+            <Button Content="Meters" 
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding NavigateCommand}" 
+                    CommandParameter="Meters"/>
+        </StackPanel>
+
+        <!-- Main Content Area with Navigation -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Connection Status Bar -->
+            <Border Grid.Row="0" 
+                    Background="#f0f0f0" 
+                    BorderBrush="#d0d0d0" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="10">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                        <Ellipse Width="12" Height="12" Margin="0,0,8,0">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="#FF4444"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                            <Setter Property="Fill" Value="#44FF44"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <TextBlock Text="Status: " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding ConnectionStatus, FallbackValue=Not Connected}"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding CurrentInterfaceType}" 
+                             HorizontalAlignment="Right"
+                             Foreground="#666666"/>
+                </DockPanel>
+            </Border>
+
+            <!-- Content Area -->
+            <Grid Grid.Row="1">
+                <!-- Default Connect View -->
+                <Grid x:Name="ConnectView" 
+                      Visibility="{Binding IsConnectViewVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Margin="20">
+                    <!-- Connection Section -->
+                    <GroupBox Header="Connect to AGX Machine">
+                        <StackPanel>
+                            <Grid Margin="0,10,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ComboBox Grid.Column="0" 
+                                         ItemsSource="{Binding AvailableResources}"
+                                         SelectedItem="{Binding SelectedResource}"
+                                         Margin="0,0,5,0">
+                                    <ComboBox.ToolTip>
+                                        <ToolTip>
+                                            <TextBlock Text="Select a VISA resource to connect to.&#x0a;Format: [Interface]::[Address]::INSTR"/>
+                                        </ToolTip>
+                                    </ComboBox.ToolTip>
+                                </ComboBox>
+                                
+                                <Button Grid.Column="1" 
+                                        Command="{Binding RefreshResourcesCommand}"
+                                        Content="Refresh"
+                                        Padding="10,5"
+                                        Margin="0,0,5,0"/>
+
+                                <Button Grid.Column="2" 
+                                        Command="{Binding ConnectCommand}"
+                                        Content="Connect"
+                                        Padding="10,5"
+                                        Margin="0,0,5,0"
+                                        IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}"/>
+
+                                <Button Grid.Column="3" 
+                                        Command="{Binding DisconnectCommand}"
+                                        Content="Disconnect"
+                                        Padding="10,5"
+                                        IsEnabled="{Binding IsConnected}"/>
+                            </Grid>
+
+                            <!-- Connection Details -->
+                            <StackPanel Visibility="{Binding IsConnected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="Connected" FontWeight="Bold" Margin="0,5"/>
+                                <TextBlock Text="{Binding CurrentInterfaceType, StringFormat=Interface Type: {0}}" Margin="0,5,0,10"/>
+                                <ItemsControl ItemsSource="{Binding InterfaceDetails}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding StringFormat={}{0}: {1}}" Margin="0,2"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+
+                            <!-- Command Interface -->
+                            <GroupBox Header="Command Interface" Margin="0,10,0,0">
+                                <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Text="{Binding CommandInput, UpdateSourceTrigger=PropertyChanged}"
+                                            Margin="0,0,5,0">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Style.Resources>
+                                                    <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                                                        <VisualBrush.Visual>
+                                                            <TextBlock Text="Enter SCPI command (append ? for query)" Foreground="Gray"/>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Style.Resources>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="">
+                                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                        <Button Grid.Column="1"
+                                                Content="Send"
+                                                Command="{Binding SendCommand}"
+                                                Padding="10,5"/>
+                                    </Grid>
+                                    <TextBox Text="{Binding ResponseOutput, Mode=OneWay}"
+                                             IsReadOnly="True"
+                                             TextWrapping="Wrap"
+                                             Height="120"
+                                             FontFamily="Consolas"
+                                             VerticalScrollBarVisibility="Auto"
+                                             Margin="0,5,0,0">
+                                        <TextBox.Resources>
+                                            <Style TargetType="{x:Type TextBox}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ResponseOutput}" Value="">
+                                                        <Setter Property="Background" Value="#f8f8f8"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Resources>
+                                    </TextBox>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+
+                <!-- Navigation Content -->
+                <ContentControl x:Name="NavigationContent"
+                              Content="{Binding CurrentView}"
+                              Visibility="{Binding IsConnectViewVisible, Converter={StaticResource InverseBooleanConverter}}"
+                              Margin="20"/>
+            </Grid>
+        </Grid>
+    </Grid>
+
+    <Window.Resources>
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1E90FF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#0066CC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+</Window>

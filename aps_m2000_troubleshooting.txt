@@ -1,0 +1,78 @@
+APS M2000 USB Connection Troubleshooting Guide
+
+Step 1: Physical Connection
+--------------------------
+1. Ensure the APS M2000 is powered on
+2. Check that the USB cable is securely connected to both:
+   - The APS M2000 USB port
+   - Your computer's USB port
+3. Try using a different USB port on your computer
+4. Try using a different USB cable if available
+
+Step 2: Driver Installation
+--------------------------
+1. Download the Silicon Labs CP210x USB to UART Bridge VCP Drivers:
+   - Go to: https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers
+   - Click on "Downloads" tab
+   - Download the Windows driver
+   - Note: Choose the x64 version for 64-bit Windows
+
+2. Install the drivers:
+   - Run the downloaded installer
+   - Follow the installation wizard
+   - Restart your computer after installation
+
+Step 3: Verify Device in Windows
+-------------------------------
+1. Open Device Manager:
+   - Right-click Start button
+   - Select "Device Manager"
+
+2. Look for the device:
+   - Check under "Ports (COM & LPT)"
+   - Look for "Silicon Labs CP210x USB to UART Bridge (COM#)"
+   - If you see it with a yellow warning icon, right-click and select "Update driver"
+
+3. If device not found:
+   - Check under "Other devices" for "Unknown device"
+   - If found, right-click and select "Update driver"
+   - Choose "Browse my computer for drivers"
+   - Point to the CP210x drivers you downloaded
+
+Step 4: APS M2000 Settings
+-------------------------
+1. Check device USB settings:
+   - Press the Menu button on the APS M2000
+   - Navigate to Communication/Interface settings
+   - Ensure USB communication is enabled
+   - Note the baud rate setting (default is 9600)
+
+Step 5: Testing Communication
+---------------------------
+1. After completing the above steps:
+   - Run the Python script again: python aps_usb_setup.py
+   - The script will list all available COM ports
+   - Look for a port with "CP210x" in its description
+
+Common Issues and Solutions
+--------------------------
+1. "No COM ports found":
+   - Verify steps 1-4 above
+   - Try unplugging and replugging the USB cable
+   - Check Device Manager while plugging/unplugging to see if Windows detects the device
+
+2. "Access denied" error:
+   - Ensure no other program is using the COM port
+   - Try closing any terminal programs or other software that might be using the port
+   - Try running the script with administrator privileges
+
+3. "Device not responding":
+   - Verify the baud rate matches the device settings
+   - Try power cycling the APS M2000
+   - Ensure the device is in remote control mode
+
+For Additional Help
+------------------
+- Consult the APS M2000 manual for specific USB communication settings
+- Contact APS technical support if issues persist
+- Check Windows Event Viewer for any USB or driver-related errors

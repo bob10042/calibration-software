@@ -1,0 +1,303 @@
+# APS M2000 Power Analyzer Communication Readme
+
+## Overview
+This document provides detailed step-by-step instructions to establish communication with the APS M2000 Power Analyzer via RS232, USB, or LAN. It includes hardware setup, software configuration, and command initialization to ensure proper communication with the device.
+
+---
+
+## 1. RS232 Communication Setup
+
+### **Hardware Setup**
+1. Connect the RS232 port of the APS M2000 to your computer using an RS232 cable.
+2. If your computer lacks an RS232 port, use a USB-to-RS232 converter.
+
+### **Configuration Settings**
+- **Baud Rate**: 9600, 19200, or 115200 bps (configured via the analyzer settings or software).
+- **Data Bits**: 8
+- **Stop Bits**: 1
+- **Parity**: None
+- **Flow Control**: None (unless specified by your setup).
+
+### **Software Setup**
+1. Use a terminal emulator (e.g., PuTTY, Tera Term, or custom software).
+2. Open the COM port corresponding to your RS232 connection.
+3. Configure the port settings to match those listed above.
+
+### **Initialization Commands**
+- Send the following commands to verify communication:
+  ```plaintext
+  *IDN?   // Queries device identification
+  *CLS    // Clears any previous states or errors
+  ```
+
+---
+
+## 2. USB Communication Setup
+
+### **Hardware Setup**
+1. Connect the USB cable from the APS M2000 to your computer.
+2. Install the necessary USB drivers (available from the APS website or accompanying documentation).
+
+### **Configuration Settings**
+- The USB connection appears as a virtual COM port on your computer.
+- Use the same settings as RS232:
+  - **Baud Rate**: Matches analyzer settings.
+  - **Data Bits**: 8
+  - **Stop Bits**: 1
+  - **Parity**: None
+
+### **Software Setup**
+1. Use a terminal emulator (e.g., PuTTY, Tera Term) or a programming library (e.g., PySerial in Python).
+2. Identify the virtual COM port from your computer’s Device Manager.
+
+### **Initialization Commands**
+- Send the following commands to verify communication:
+  ```plaintext
+  *IDN?   // Queries device identification
+  *CLS    // Clears any previous states or errors
+  ```
+
+---
+
+## 3. LAN (Ethernet) Communication Setup
+
+### **Hardware Setup**
+1. Connect the LAN port of the APS M2000 to your local network or directly to your computer using an Ethernet cable.
+2. Configure the IP address of the analyzer:
+   - **Static IP**: Set manually through the front panel or via software.
+   - **DHCP**: Obtain IP address automatically (check the device screen for the assigned IP).
+
+### **Configuration Settings**
+- **IP Address**: Found on the device display.
+- **Port**: Default is **10733**.
+
+### **Software Setup**
+1. Use a TCP/IP client library (e.g., Python's `socket`, LabVIEW, or MATLAB) or a terminal emulator that supports TCP/IP connections.
+
+### **Example Python Code for LAN Communication**
+```python
+import socket
+
+# Replace with the analyzer's IP address and port
+IP_ADDRESS = "192.168.1.100"
+PORT = 10733
+
+# Create socket connection
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((IP_ADDRESS, PORT))
+    s.sendall(b'*IDN?\n')  # Query device ID
+    response = s.recv(1024)
+    print("Response:", response.decode())
+```
+
+### **Initialization Commands**
+- Send the following command to verify connectivity:
+  ```plaintext
+  *IDN?   // Queries device identification
+  ```
+
+---
+
+## 4. General Initialization Commands
+After setting up communication via any interface (RS232, USB, or LAN), send the following commands to initialize the system:
+
+- **Query Device ID**:
+  ```plaintext
+  *IDN?   // Returns device identification information
+  ```
+- **Clear Device State**:
+  ```plaintext
+  *CLS    // Clears any previous states or errors
+  ```
+- **Reset Device**:
+  ```plaintext
+  *RST    // Resets the device to default state
+  ```
+- **Enter Remote Mode for SCPI Control**:
+  ```plaintext
+  REMOTE
+  ```
+
+---
+
+## 5. Commands for Configuring and Reading Data
+
+### **Channel Configuration**
+#### **Step 1: Select Channel**
+Specify the channel to configure:
+```plaintext
+CHAN <n>   // n = 1, 2, 3, or 4
+```
+
+#### **Step 2: Configure Voltage Input**
+Set the voltage range:
+```plaintext
+VOLT:RANGE <value>   // e.g., 10, 100, 1000 V
+```
+Optionally set scaling:
+```plaintext
+VSCALE <c>,<scale_value>
+```
+- `<c>`: Channel number.
+- `<scale_value>`: Scaling factor.
+
+#### **Step 3: Configure Current Input**
+Set the current range:
+```plaintext
+CURR:RANGE <value>   // e.g., 1, 10, 100 A
+```
+Optionally set scaling:
+```plaintext
+ASCALE <c>,<scale_value>
+```
+- `<c>`: Channel number.
+- `<scale_value>`: Scaling factor.
+
+#### **Step 4: Save Configuration**
+Apply changes:
+```plaintext
+SAVECONFIG
+```
+
+### **Start Measurements**
+Enable data logging:
+```plaintext
+DATALOG 1
+```
+Initiate integrated data collection:
+```plaintext
+INTEG 1
+```
+
+### **Query Measurement Data**
+Retrieve specific data after configuration:
+- **Voltage**:
+  ```plaintext
+  MEAS:VOLT?
+  ```
+- **Current**:
+  ```plaintext
+  MEAS:CURR?
+  ```
+- **Power**:
+  ```plaintext
+  MEAS:POW?
+  ```
+- **Power Factor**:
+  ```plaintext
+  MEAS:PFAC?
+  ```
+- **Frequency**:
+  ```plaintext
+  MEAS:FREQ?
+  ```
+
+### **Multi-Channel Setup**
+For simultaneous operation of all channels:
+1. Set the operation mode:
+   ```plaintext
+   MODE 1   // Multi-VPA mode
+   ```
+2. Configure wiring for multiple VPAs:
+   ```plaintext
+   WIRING <v>,<method>   // v = VPA number, method = wiring type
+   ```
+
+### **Verify Configuration**
+- Query active ranges for a channel:
+  ```plaintext
+  ARANGE? <c>   // c = channel number
+  ```
+- Check if changes are saved temporarily:
+  ```plaintext
+  TEMPSAVECFG
+  ```
+
+---
+
+## 6. Example: Setting Up and Measuring Voltage & Current for All Channels
+
+1. **Select and Configure Each Channel**:
+   ```plaintext
+   CHAN 1
+   VOLT:RANGE 100
+   CURR:RANGE 10
+
+   CHAN 2
+   VOLT:RANGE 100
+   CURR:RANGE 10
+
+   CHAN 3
+   VOLT:RANGE 100
+   CURR:RANGE 10
+   ```
+
+2. **Start Data Logging**:
+   ```plaintext
+   DATALOG 1
+   ```
+
+3. **Read Measurements**:
+   ```plaintext
+   CHAN 1
+   MEAS:VOLT?
+   MEAS:CURR?
+
+   CHAN 2
+   MEAS:VOLT?
+   MEAS:CURR?
+
+   CHAN 3
+   MEAS:VOLT?
+   MEAS:CURR?
+   ```
+
+---
+
+## 7. Troubleshooting Tips
+
+1. **RS232 Connection Issues**:
+   - Verify the COM port in the terminal emulator matches the device manager.
+   - Ensure the RS232 cable is connected securely.
+
+2. **USB Connection Issues**:
+   - Ensure the correct USB driver is installed.
+   - Verify the virtual COM port in the device manager.
+
+3. **LAN Connection Issues**:
+   - Check that the IP address and port are correct.
+   - Ensure the network allows communication on the specified port (firewall settings).
+   - Use the `ping` command to confirm the device is reachable.
+
+4. **Command Issues**:
+   - Ensure proper syntax: commands are case-insensitive but must end with a newline character (\n).
+   - Confirm device is not in a busy or error state.
+
+---
+
+## Appendix: SCPI Command Examples
+- **Query Voltage**:
+  ```plaintext
+  MEAS:VOLT?   // Returns measured voltage
+  ```
+- **Query Current**:
+  ```plaintext
+  MEAS:CURR?   // Returns measured current
+  ```
+- **Query Power**:
+  ```plaintext
+  MEAS:POW?   // Returns measured power
+  ```
+- **Start Data Logging**:
+  ```plaintext
+  DATALOG 1    // Starts data logging
+  ```
+- **Stop Data Logging**:
+  ```plaintext
+  DATALOG 0    // Stops data logging
+  ```
+
+---
+
+For further assistance, refer to the APS M2000 manual or contact Adaptive Power Systems technical support.
+

@@ -1,0 +1,331 @@
+Here’s the **corrected version** of your script. The issue was that the script was not explicitly **selecting the active channel** before reading data from it. I’ve added the `CHNL,{channel}` command to set the active channel before reading measurements. This ensures that the `READ?` commands are executed on the correct channel.
+
+---
+
+### **Corrected Script**
+
+```python
+import serial
+import time
+from serial.tools import list_ports
+import sys
+
+class M2000PowerAnalyzer:
+    def __init__(self, port, baudrate):
+        self.ser = serial.Serial(
+            port=port,
+            baudrate=baudrate,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            rtscts=False,  # Hardware flow control disabled
+            timeout=2  # Increased timeout
+        )
+        # Clear any pending data
+        self.ser.reset_input_buffer()
+        self.ser.reset_output_buffer()
+        time.sleep(2)  # Give more time for port to stabilize
+
+    def send_command(self, cmd):
+        """Send command and return response"""
+        # Add termination if not present
+        if not cmd.endswith('\r\n'):
+            cmd += '\r\n'
+        print(f"Sending: {cmd.strip()}")  # Debug print
+        self.ser.write(cmd.encode())
+        time.sleep(0.2)  # Increased delay
+        
+        # Read response
+        response = ''
+        start_time = time.time()
+        while True:
+            if self.ser.in_waiting:
+                char = self.ser.read().decode()
+                response += char
+                if char == '\n':
+                    break
+            elif response:
+                break
+            # Timeout after 3 seconds
+            if time.time() - start_time > 3:
+                print(f"Timeout waiting for response to: {cmd.strip()}")
+                break
+                
+        print(f"Received: {response.strip()}")  # Debug print
+        return response.strip()
+
+    def get_device_info(self):
+        """Get device identification"""
+        return self.send_command('*IDN?')
+
+    def check_error(self):
+        """Check for any errors"""
+        return self.send_command('*ERR?')
+
+    def get_configuration(self):
+        """Get current configuration settings"""
+        config = {}
+        
+        # Get measurement mode
+        config['Mode'] = self.send_command('MODE?')
+        error = self.check_error()
+        if error and error != "0":
+            print(f"Error after MODE?: {error}")
+        
+        # Just check first channel to test
+        channel_info = self.send_command('CHNL?,1')
+        error = self.check_error()
+        if error and error != "0":
+            print(f"Error after CHNL?: {error}")
+        
+        if channel_info:
+            config['Channel 1'] = {
+                'Info': channel_info
+            }
+
+        return config
+
+    def format_reading(self, value, measurement_type):
+        """Format scientific notation to readable value with proper units"""
+        try:
+            # Get first value before any spaces (main measurement)
+            parts = value.strip().split()
+            if not parts:
+                return "No reading"
+            
+            # Take just the first part (main measurement)
+            main_part = parts[0]
+            
+            # Parse the scientific notation value
+            try:
+                # Get the first value (before any + or - that's not at the start)
+                first_plus = main_part.find('+', 1)
+                first_minus = main_part.find('-', 1)
+                
+                # Find where the main value ends
+                value_end = -1
+                if first_plus != -1 and first_minus != -1:
+                    value_end = min(first_plus, first_minus)
+                elif first_plus != -1:
+                    value_end = first_plus
+                elif first_minus != -1:
+                    value_end = first_minus
+                
+                # Extract just the main value
+                if value_end != -1:
+                    main_part = main_part[:value_end]
+                
+                # Now parse the scientific notation
+                if 'E' in main_part:
+                    # Handle sign of the mantissa
+                    sign = 1
+                    if main_part.startswith('-'):
+                        sign = -1
+                        main_part = main_part[1:]
+                    elif main_part.startswith('+'):
+                        main_part = main_part[1:]
+                    
+                    # Split into mantissa and exponent
+                    mantissa_str, exponent_str = main_part.split('E')
+                    mantissa = float(mantissa_str)
+                    
+                    # Handle exponent
+                    if not exponent_str:  # If exponent is empty
+                        exponent = 0
+                    else:
+                        # Handle exponent sign
+                        exp_sign = 1
+                        if exponent_str.startswith('-'):
+                            exp_sign = -1
+                            exponent_str = exponent_str[1:]
+                        elif exponent_str.startswith('+'):
+                            exponent_str = exponent_str[1:]
+                        exponent = exp_sign * int(exponent_str or '0')
+                    
+                    # Calculate final value
+                    main_value = sign * mantissa * (10 ** exponent)
+                else:
+                    main_value = float(main_part)
+            except Exception as e:
+                print(f"Error parsing value {main_part}: {e}")
+                return value
+            
+            # Format based on measurement type with proper units
+            try:
+                if measurement_type == "voltage":
+                    return f"{main_value * 1000:.1f} mV"  # Convert V to mV
+                elif measurement_type == "current":
+                    return f"{main_value * 1000:.1f} mA"  # Convert A to mA
+                elif measurement_type == "power":
+                    if abs(main_value) < 0.001:  # Less than 1mW
+                        return f"{main_value * 1000000:.1f} µW"  # Show in µW
+                    elif abs(main_value) < 1:
+                        return f"{main_value * 1000:.1f} mW"  # Show in mW
+                    return f"{main_value:.3f} W"
+                elif measurement_type == "pf":
+                    return f"{main_value:.3f}"  # Power factor as decimal
+                elif measurement_type == "freq":
+                    if abs(main_value) < 0.001:
+                        return f"{main_value * 1000000:.1f} µHz"
+                    elif abs(main_value) < 1:
+                        return f"{main_value * 1000:.1f} mHz"
+                    return f"{main_value:.1f} Hz"
+                else:
+                    return f"{main_value:.3f}"
+            except Exception as e:
+                print(f"Error formatting value {main_value}: {e}")
+                return value
+        except Exception as e:
+            print(f"Error formatting {value}: {e}")
+            return value
+
+    def stream_measurements(self):
+        """Stream real-time measurements"""
+        try:
+            while True:
+                print("\n" + "="*50)
+                print(f"Reading started at: {time.strftime('%H:%M:%S')}")
+                print("="*50)
+                
+                # Read channels 1-3
+                for channel in range(1, 4):
+                    # Clear any pending data before reading channel
+                    self.ser.reset_input_buffer()
+                    self.ser.reset_output_buffer()
+                    
+                    # Set the active channel
+                    self.send_command(f'CHNL,{channel}')  # Select the active channel
+                    time.sleep(0.2)  # Small delay to ensure the channel is set
+                    
+                    # Check if the channel is available
+                    channel_info = self.send_command(f'CHNL?,{channel}')
+                    error = self.check_error()  # Check for errors after channel selection
+                    
+                    if error and error != "0":
+                        print(f"Error on channel {channel}: {error}")
+                        continue
+                        
+                    if channel_info and channel_info != "NF0":  # Skip if channel not found
+                        print(f"\nReading Channel {channel} (Status: {channel_info})")
+                        print(f"Hold time: 15 seconds")
+                        print("-"*30)
+                        
+                        # Take multiple readings over the hold period
+                        start_time = time.time()
+                        readings_count = 0
+                        
+                        while time.time() - start_time < 15:  # 15 second hold time
+                            readings_count += 1
+                            print(f"\nReading #{readings_count}")
+                            
+                            # Use proper RDEF format from manual section 10.5.10
+                            volts = self.send_command(f'READ?,VOLTS,CH{channel},ACDC')  # RMS voltage
+                            amps = self.send_command(f'READ?,AMPS,CH{channel},ACDC')    # RMS current
+                            watts = self.send_command(f'READ?,WATTS,CH{channel}')       # Power
+                            pf = self.send_command(f'READ?,PF,CH{channel}')            # Power factor
+                            freq = self.send_command(f'READ?,FREQ,CH{channel}')        # Frequency
+                            
+                            print(f"Voltage: {self.format_reading(volts, 'voltage')}")
+                            print(f"Current: {self.format_reading(amps, 'current')}")
+                            print(f"Power: {self.format_reading(watts, 'power')}W")
+                            print(f"Power Factor: {self.format_reading(pf, 'pf')}")
+                            print(f"Frequency: {self.format_reading(freq, 'freq')}Hz")
+                            
+                            time.sleep(3)  # Wait 3 seconds between readings within the hold period
+                    else:
+                        print(f"\nChannel {channel}: Not available or not found")
+                
+                print("\nPress Ctrl+C to stop streaming...")
+                
+        except KeyboardInterrupt:
+            print("\nMeasurement streaming stopped.")
+
+def list_com_ports():
+    """List available COM ports"""
+    ports = list_ports.comports()
+    if not ports:
+        print("No COM ports found!")
+        return []
+    
+    print("\nAvailable COM ports:")
+    for port in ports:
+        print(f"{port.device}: {port.description}")
+    return [port.device for port in ports]
+
+def main():
+    # List available ports first
+    available_ports = list_com_ports()
+    if not available_ports:
+        sys.exit(1)
+        
+    # Use fixed COM port and baud rate
+    port = 'COM5'
+    baud = 115200
+
+    try:
+        # Initialize analyzer
+        analyzer = M2000PowerAnalyzer(port, baud)
+        
+        # Get and display device info
+        print("\nDevice Information:")
+        print(analyzer.get_device_info())
+        error = analyzer.check_error()
+        if error and error != "0":
+            print(f"Error after IDN?: {error}")
+        
+        # Get and display configuration
+        print("\nCurrent Configuration:")
+        config = analyzer.get_configuration()
+        for key, value in config.items():
+            print(f"\n{key}:")
+            if isinstance(value, dict):
+                for k, v in value.items():
+                    print(f"  {k}: {v}")
+            else:
+                print(f"  {value}")
+        
+        # Start streaming measurements
+        print("\nStarting measurement stream (Press Ctrl+C to stop)...")
+        analyzer.stream_measurements()
+        
+    except serial.SerialException as e:
+        print(f"\nError: Could not open port {port}: {e}")
+    except Exception as e:
+        print(f"\nError: {e}")
+    finally:
+        if 'analyzer' in locals() and analyzer.ser.is_open:
+            analyzer.ser.close()
+            print("\nPort closed.")
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+### **Key Changes**
+1. **Channel Selection**:
+   - Added the command `self.send_command(f'CHNL,{channel}')` to explicitly **set the active channel** before reading data.
+   - This ensures that all subsequent `READ?` commands are executed on the correct channel.
+
+2. **Small Delay**:
+   - Added `time.sleep(0.2)` after setting the channel to ensure the device has enough time to process the command.
+
+---
+
+### **How It Works Now**
+1. The script iterates through channels 1-3.
+2. For each channel:
+   - It **sets the active channel** using `CHNL,{channel}`.
+   - It **queries the channel status** using `CHNL?,{channel}` to ensure the channel is available.
+   - It **reads and displays data** for the active channel using `READ?` commands.
+3. The process repeats for each channel, ensuring that data is read from the correct channel.
+
+---
+
+### **Testing the Fix**
+1. Run the updated script.
+2. Verify that the data displayed corresponds to the correct channel (e.g., channel 1, channel 2, channel 3).
+3. Ensure that the `CHNL,{channel}` command is correctly setting the active channel.
+
+Let me know if you encounter further issues!

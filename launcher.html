@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGX Python Script Launcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .script-group {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .script-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            margin: 5px 0;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .script-item:hover {
+            background: #f8f9fa;
+        }
+        .launch-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .launch-btn:hover {
+            background: #45a049;
+        }
+        .script-name {
+            margin-right: 20px;
+        }
+        #output {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>AGX Python Script Launcher</h1>
+    
+    <div class="script-group">
+        <h2>Test Scripts</h2>
+        <div class="script-item">
+            <span class="script-name">AGX Communications Test</span>
+            <button class="launch-btn" onclick="launchScript('test_agx_comms.py')">Launch</button>
+        </div>
+        <div class="script-item">
+            <span class="script-name">GPIB Test</span>
+            <button class="launch-btn" onclick="launchScript('test_gpib.py')">Launch</button>
+        </div>
+        <div class="script-item">
+            <span class="script-name">DC Test</span>
+            <button class="launch-btn" onclick="launchScript('dc_test.py')">Launch</button>
+        </div>
+    </div>
+
+    <div class="script-group">
+        <h2>Configuration Scripts</h2>
+        <div class="script-item">
+            <span class="script-name">Configure AGX Network</span>
+            <button class="launch-btn" onclick="launchScript('configure_agx_network.py')">Launch</button>
+        </div>
+        <div class="script-item">
+            <span class="script-name">Enable AGX LAN</span>
+            <button class="launch-btn" onclick="launchScript('enable_agx_lan.py')">Launch</button>
+        </div>
+    </div>
+
+    <div class="script-group">
+        <h2>Voltage Control Scripts</h2>
+        <div class="script-item">
+            <span class="script-name">Output AC Voltage</span>
+            <button class="launch-btn" onclick="launchScript('output_ac_voltage.py')">Launch</button>
+        </div>
+        <div class="script-item">
+            <span class="script-name">Voltage Test Sequence</span>
+            <button class="launch-btn" onclick="launchScript('voltage_test_sequence.py')">Launch</button>
+        </div>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        async function launchScript(scriptName) {
+            const output = document.getElementById('output');
+            output.innerHTML += `Launching ${scriptName}...\n`;
+            
+            try {
+                const response = await fetch(`/launch?script=${encodeURIComponent(scriptName)}`);
+                const result = await response.text();
+                output.innerHTML += result + '\n';
+            } catch (error) {
+                output.innerHTML += `Error: ${error.message}\n`;
+            }
+            
+            output.scrollTop = output.scrollHeight;
+        }
+    </script>
+</body>
+</html>
