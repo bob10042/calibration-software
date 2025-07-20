@@ -28,10 +28,10 @@ jobs:
         dotnet-version: '6.0.x'
         
     - name: Claude Code GitHub Integration
-      uses: nicholaslee119/claude-code-github-action@0.1.1
+      uses: anthropics/claude-code-action@beta
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        trigger_phrase: "@claude-code"
         
     - name: Restore NuGet packages
       run: |
@@ -78,9 +78,9 @@ jobs:
         dotnet-version: '6.0.x'
         
     - name: Claude C# Code Review
-      uses: nicholaslee119/claude-code-github-action@0.1.1
+      uses: anthropics/claude-code-action@beta
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        trigger_phrase: "@claude-code"
         mode: 'review'
         language: 'csharp'
