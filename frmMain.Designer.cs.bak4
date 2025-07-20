@@ -1,0 +1,1071 @@
+﻿using System.Drawing;      // Required for Padding
+using System.Windows.Forms;  // Required for ContentAlignment
+
+namespace CalTestGUI
+{
+    partial class frmMain
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (disposing && (components != null))
+                {
+                    components.Dispose();
+                }                
+            }
+            base.Dispose(disposing);
+        }               
+                           
+#region Windows Form Designer generated code
+
+/// <summary>
+/// Required method for Designer support - do not modify
+/// the contents of this method with the code editor.
+/// </summary>
+private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            this.panelSideMenu = new System.Windows.Forms.Panel();
+            this.btnAutoTestPanel = new System.Windows.Forms.Button();
+            this.panelMetersMenu = new System.Windows.Forms.Panel();
+            this.btnMeters = new System.Windows.Forms.Button();
+            this.btnApsM2003 = new System.Windows.Forms.Button();
+            this.btnFluke8508A = new System.Windows.Forms.Button();
+            this.btnKeysight34471A = new System.Windows.Forms.Button();
+            this.btnVitrek920A = new System.Windows.Forms.Button();
+            this.panelAboutUsMenu = new System.Windows.Forms.Panel();
+            this.btnPowerRatingsPanel = new System.Windows.Forms.Button();
+            this.btnAssemblyDrawingsPanel = new System.Windows.Forms.Button();
+            this.btnMCodesPanel = new System.Windows.Forms.Button();
+            this.btnProductSpecificationPanel = new System.Windows.Forms.Button();
+            this.panelProductMenu = new System.Windows.Forms.Panel();
+            this.btnElectronicLoadsPanel = new System.Windows.Forms.Button();
+            this.btnPowerSuppliesPanel = new System.Windows.Forms.Button();
+            this.btnAcPowerSuppliesPanel = new System.Windows.Forms.Button();
+            this.btnCircuitDiagramsPanel = new System.Windows.Forms.Button();
+            this.panelCalibrationMenu = new System.Windows.Forms.Panel();
+            this.btnSpare4 = new System.Windows.Forms.Button();
+            this.btnSpare3 = new System.Windows.Forms.Button();
+            this.btnSpare2 = new System.Windows.Forms.Button();
+            this.btnSpare1 = new System.Windows.Forms.Button();
+            this.btnApsPanel = new System.Windows.Forms.Button();
+            this.btnPpsPanel = new System.Windows.Forms.Button();
+            this.btnAutoTestPanel = new System.Windows.Forms.Button();
+            this.btnPatTestPanel = new System.Windows.Forms.Button();
+            this.panelLogo = new System.Windows.Forms.Panel();
+            this.btnHomeScreenPanel = new System.Windows.Forms.Button();
+            this.panelBaseForm = new System.Windows.Forms.Panel();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.panelBckGrd = new System.Windows.Forms.Panel();
+            this.picBoxMain = new System.Windows.Forms.PictureBox();
+            this.panelPatTest = new System.Windows.Forms.Panel();
+            this.gpPatAutoTEst = new System.Windows.Forms.GroupBox();
+            this.btnIecLeadTest = new System.Windows.Forms.Button();
+            this.btnClassTwo = new System.Windows.Forms.Button();
+            this.btnClassOne = new System.Windows.Forms.Button();
+            this.gpPatTestCondition = new System.Windows.Forms.GroupBox();
+            this.richTextBoxPatTestCondition = new System.Windows.Forms.RichTextBox();
+            this.gpPatTestEquipment = new System.Windows.Forms.GroupBox();
+            this.cmbSupplyVoltage = new System.Windows.Forms.ComboBox();
+            this.textBoxVoltageRating = new System.Windows.Forms.TextBox();
+            this.cmbCableLength = new System.Windows.Forms.ComboBox();
+            this.cmbCurrRating = new System.Windows.Forms.ComboBox();
+            this.textBoxCurrentRating = new System.Windows.Forms.TextBox();
+            this.btnPatClose = new System.Windows.Forms.Button();
+            this.textBoxSelctCableLength = new System.Windows.Forms.TextBox();
+            this.progBarPatTest = new System.Windows.Forms.ProgressBar();
+            this.btnPatConnect = new System.Windows.Forms.Button();
+            this.textBoxGwComPort = new System.Windows.Forms.TextBox();
+            this.cmbBoxGwInstekUsb = new System.Windows.Forms.ComboBox();
+            this.GrBoxPpsAteConnect = new System.Windows.Forms.GroupBox();
+            this.CmbBoxPacificSelect = new System.Windows.Forms.ComboBox();
+            this.TextBoxAddress = new System.Windows.Forms.TextBox();
+            this.CmbBoxPacificUnit = new System.Windows.Forms.ComboBox();
+            this.TextBoxPpsSelectUut = new System.Windows.Forms.TextBox();
+            this.CmbBoxN4LPrt = new System.Windows.Forms.ComboBox();
+            this.TextBoxPpsN4l = new System.Windows.Forms.TextBox();
+            this.TextBoxPpsTrans = new System.Windows.Forms.TextBox();
+            this.CmbBoxTrans = new System.Windows.Forms.ComboBox();
+            this.textBoxPpsEnterCaseNum = new System.Windows.Forms.TextBox();
+            this.TextBoxPpsEnterPacificSerNum = new System.Windows.Forms.TextBox();
+            this.textBoxPpsCaseNum = new System.Windows.Forms.TextBox();
+            this.TextBoxPpsPacificSerNum = new System.Windows.Forms.TextBox();
+            this.BtnPpsConnect = new System.Windows.Forms.Button();
+            this.BtnPpsClose = new System.Windows.Forms.Button();
+            this.progBarPpsGpib = new System.Windows.Forms.ProgressBar();
+            this.serPpsRs232 = new System.IO.Ports.SerialPort(this.components);
+            this.serNewtonsRs232_4th = new System.IO.Ports.SerialPort(this.components);
+            this.serNewtonsGpib_4th = new System.IO.Ports.SerialPort(this.components);
+            this.GrBoxPpsCalSet = new System.Windows.Forms.Panel();
+            this.GrBoxPpsTestPanel = new System.Windows.Forms.GroupBox();
+            this.btnPpsRunTest = new System.Windows.Forms.Button();
+            this.GrBoxPpsCertDetails = new System.Windows.Forms.GroupBox();
+            this.textBoxPpsEnterPlantNum = new System.Windows.Forms.TextBox();
+            this.textBoxPpsPlantNum = new System.Windows.Forms.TextBox();
+            this.GrBoxPpsAteSoak = new System.Windows.Forms.GroupBox();
+            this.radioBtnNoSoak = new System.Windows.Forms.RadioButton();
+            this.radioBtnPreSoak = new System.Windows.Forms.RadioButton();
+            this.GrBoxPpsCelSettings = new System.Windows.Forms.GroupBox();
+            this.RadioBtnPps50Hz = new System.Windows.Forms.RadioButton();
+            this.RadioBtnPps400Hz = new System.Windows.Forms.RadioButton();
+            this.TextBoxPpsEnterCertNum = new System.Windows.Forms.TextBox();
+            this.TextBoxPpsCertNum = new System.Windows.Forms.TextBox();
+            this.textBoxPpsEnterName = new System.Windows.Forms.TextBox();
+            this.textBoxPpsName = new System.Windows.Forms.TextBox();
+            this.GrBoxPpsAteData = new System.Windows.Forms.GroupBox();
+            this.RichTextPpsAte = new System.Windows.Forms.RichTextBox();
+            this.panelSideMenu.SuspendLayout();
+            this.panelAboutUsMenu.SuspendLayout();
+            this.panelProductMenu.SuspendLayout();
+            this.panelCalibrationMenu.SuspendLayout();
+            this.panelLogo.SuspendLayout();
+            this.panelBaseForm.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.panelBckGrd.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxMain)).BeginInit();
+            this.panelPatTest.SuspendLayout();
+            this.gpPatAutoTEst.SuspendLayout();
+            this.gpPatTestCondition.SuspendLayout();
+            this.gpPatTestEquipment.SuspendLayout();
+            this.GrBoxPpsAteConnect.SuspendLayout();
+            this.GrBoxPpsCalSet.SuspendLayout();
+            this.GrBoxPpsTestPanel.SuspendLayout();
+            this.GrBoxPpsCertDetails.SuspendLayout();
+            this.GrBoxPpsAteSoak.SuspendLayout();
+            this.GrBoxPpsCelSettings.SuspendLayout();
+            this.GrBoxPpsAteData.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // panelSideMenu
+            // 
+            this.panelSideMenu.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
+            resources.ApplyResources(this.panelSideMenu, "panelSideMenu");
+            this.panelSideMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            this.panelSideMenu.Controls.Add(this.panelMetersMenu);
+            this.panelSideMenu.Controls.Add(this.btnMeters);    
+            this.panelSideMenu.Controls.Add(this.panelAboutUsMenu);
+            this.panelSideMenu.Controls.Add(this.btnProductSpecificationPanel);
+            this.panelSideMenu.Controls.Add(this.panelProductMenu);
+            this.panelSideMenu.Controls.Add(this.btnCircuitDiagramsPanel);
+            this.panelSideMenu.Controls.Add(this.panelCalibrationMenu);
+            this.panelSideMenu.Controls.Add(this.btnAutoTestPanel);
+            this.panelSideMenu.Controls.Add(this.btnPatTestPanel);
+            this.panelSideMenu.Controls.Add(this.panelLogo);
+            this.panelSideMenu.Name = "panelSideMenu";
+            // 
+            // panelAboutUsMenu
+            // 
+            resources.ApplyResources(this.panelAboutUsMenu, "panelAboutUsMenu");
+            this.panelAboutUsMenu.BackColor = System.Drawing.Color.LimeGreen;   
+            this.panelAboutUsMenu.Controls.Add(this.btnPowerRatingsPanel);
+            this.panelAboutUsMenu.Controls.Add(this.btnAssemblyDrawingsPanel);
+            this.panelAboutUsMenu.Controls.Add(this.btnMCodesPanel);
+            this.panelAboutUsMenu.Name = "panelAboutUsMenu";
+            // 
+            // btnPowerRatingsPanel
+            // 
+            this.btnPowerRatingsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnPowerRatingsPanel, "btnPowerRatingsPanel");
+            this.btnPowerRatingsPanel.FlatAppearance.BorderSize = 0;
+            this.btnPowerRatingsPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnPowerRatingsPanel.Name = "btnPowerRatingsPanel";
+            this.btnPowerRatingsPanel.UseVisualStyleBackColor = false;
+            this.btnPowerRatingsPanel.Click += new System.EventHandler(this.btnPowerRatingsPanel_Click);
+            // 
+            // btnAssemblyDrawingsPanel
+            // 
+            this.btnAssemblyDrawingsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnAssemblyDrawingsPanel, "btnAssemblyDrawingsPanel");
+            this.btnAssemblyDrawingsPanel.FlatAppearance.BorderSize = 0;
+            this.btnAssemblyDrawingsPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnAssemblyDrawingsPanel.Name = "btnAssemblyDrawingsPanel";
+            this.btnAssemblyDrawingsPanel.UseVisualStyleBackColor = false;
+            this.btnAssemblyDrawingsPanel.Click += new System.EventHandler(this.btnAssemblyDrawingsPanel_Click);
+            // 
+            // btnMCodesPanel
+            // 
+            this.btnMCodesPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnMCodesPanel, "btnMCodesPanel");
+            this.btnMCodesPanel.FlatAppearance.BorderSize = 0;
+            this.btnMCodesPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnMCodesPanel.Name = "btnMCodesPanel";
+            this.btnMCodesPanel.UseVisualStyleBackColor = false;
+            this.btnMCodesPanel.Click += new System.EventHandler(this.btnMCodesPanel_Click);
+            // 
+            // btnProductSpecificationPanel
+            // 
+            this.btnProductSpecificationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            resources.ApplyResources(this.btnProductSpecificationPanel, "btnProductSpecificationPanel");
+            this.btnProductSpecificationPanel.FlatAppearance.BorderSize = 0;
+            this.btnProductSpecificationPanel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnProductSpecificationPanel.Name = "btnProductSpecificationPanel";
+            this.btnProductSpecificationPanel.UseVisualStyleBackColor = false;
+            this.btnProductSpecificationPanel.Click += new System.EventHandler(this.btnProductSpecificationPanel_Click);
+            // 
+            // panelProductMenu
+            // 
+            resources.ApplyResources(this.panelProductMenu, "panelProductMenu");
+            this.panelProductMenu.BackColor = System.Drawing.Color.LimeGreen;
+            this.panelProductMenu.Controls.Add(this.btnElectronicLoadsPanel);
+            this.panelProductMenu.Controls.Add(this.btnPowerSuppliesPanel);
+            this.panelProductMenu.Controls.Add(this.btnAcPowerSuppliesPanel);
+            this.panelProductMenu.Name = "panelProductMenu";
+            //
+            // Lines 240-250: panelMetersMenu
+            this.panelMetersMenu.BackColor = System.Drawing.Color.LimeGreen;
+            this.panelMetersMenu.Controls.Add(this.btnVitrek920A);
+            this.panelMetersMenu.Controls.Add(this.btnKeysight34471A);
+            this.panelMetersMenu.Controls.Add(this.btnFluke8508A);
+            this.panelMetersMenu.Controls.Add(this.btnApsM2003);
+            this.panelMetersMenu.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelMetersMenu.Location = new System.Drawing.Point(0, 0);
+            this.panelMetersMenu.Name = "panelMetersMenu";
+            this.panelMetersMenu.Size = new System.Drawing.Size(250, 165);
+            this.panelMetersMenu.TabIndex = 0;
+            this.panelMetersMenu.Visible = false;
+            
+            // Lines 251-264: btnMeters
+            this.btnMeters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            this.btnMeters.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnMeters.FlatAppearance.BorderSize = 0;
+            this.btnMeters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMeters.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnMeters.Location = new System.Drawing.Point(0, 0);
+            this.btnMeters.Name = "btnMeters";
+            this.btnMeters.Size = new System.Drawing.Size(250, 40);
+            this.btnMeters.TabIndex = 0;
+            this.btnMeters.Text = "Meters";
+            this.btnMeters.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMeters.UseVisualStyleBackColor = false;
+            this.btnMeters.Click += new System.EventHandler(this.btnMeters_Click);
+            
+            // Lines 265-280: btnApsM2003
+            this.btnApsM2003.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.btnApsM2003.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnApsM2003.FlatAppearance.BorderSize = 0;
+            this.btnApsM2003.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnApsM2003.ForeColor = System.Drawing.Color.Black;
+            this.btnApsM2003.Location = new System.Drawing.Point(0, 0);
+            this.btnApsM2003.Name = "btnApsM2003";
+            this.btnApsM2003.Size = new System.Drawing.Size(250, 40);
+            this.btnApsM2003.TabIndex = 0;
+            this.btnApsM2003.Text = "APS M2003";
+            this.btnApsM2003.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnApsM2003.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnApsM2003.Padding = new Padding(35, 0, 0, 0);
+            this.btnApsM2003.UseVisualStyleBackColor = false;
+            this.btnApsM2003.Click += new System.EventHandler(this.btnApsM2003_Click);
+            
+            // Lines 281-296: btnFluke8508A
+            this.btnFluke8508A.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.btnFluke8508A.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnFluke8508A.FlatAppearance.BorderSize = 0;
+            this.btnFluke8508A.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFluke8508A.ForeColor = System.Drawing.Color.Black;
+            this.btnFluke8508A.Location = new System.Drawing.Point(0, 40);
+            this.btnFluke8508A.Name = "btnFluke8508A";
+            this.btnFluke8508A.Size = new System.Drawing.Size(250, 40);
+            this.btnFluke8508A.TabIndex = 1;
+            this.btnFluke8508A.Text = "Fluke 8508A";
+            this.btnFluke8508A.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFluke8508A.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnFluke8508A.Padding = new Padding(35, 0, 0, 0);
+            this.btnFluke8508A.UseVisualStyleBackColor = false;
+            this.btnFluke8508A.Click += new System.EventHandler(this.btnFluke8508A_Click);
+            
+            // Lines 297-312: btnKeysight34471A
+            this.btnKeysight34471A.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.btnKeysight34471A.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnKeysight34471A.FlatAppearance.BorderSize = 0;
+            this.btnKeysight34471A.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnKeysight34471A.ForeColor = System.Drawing.Color.Black;
+            this.btnKeysight34471A.Location = new System.Drawing.Point(0, 80);
+            this.btnKeysight34471A.Name = "btnKeysight34471A";
+            this.btnKeysight34471A.Size = new System.Drawing.Size(250, 40);
+            this.btnKeysight34471A.TabIndex = 2;
+            this.btnKeysight34471A.Text = "Keysight 34471A";
+            this.btnKeysight34471A.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKeysight34471A.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnKeysight34471A.Padding = new Padding(35, 0, 0, 0);
+            this.btnKeysight34471A.UseVisualStyleBackColor = false;
+            this.btnKeysight34471A.Click += new System.EventHandler(this.btnKeysight34471A_Click);
+            
+            // Lines 313-328: btnVitrek920A
+            this.btnVitrek920A.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.btnVitrek920A.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnVitrek920A.FlatAppearance.BorderSize = 0;
+            this.btnVitrek920A.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVitrek920A.ForeColor = System.Drawing.Color.Black;
+            this.btnVitrek920A.Location = new System.Drawing.Point(0, 120);
+            this.btnVitrek920A.Name = "btnVitrek920A";
+            this.btnVitrek920A.Size = new System.Drawing.Size(250, 40);
+            this.btnVitrek920A.TabIndex = 3;
+            this.btnVitrek920A.Text = "Vitrek 920A";
+            this.btnVitrek920A.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVitrek920A.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnVitrek920A.Padding = new Padding(35, 0, 0, 0);
+            this.btnVitrek920A.UseVisualStyleBackColor = false;
+            this.btnVitrek920A.Click += new System.EventHandler(this.btnVitrek920A_Click);      
+            //
+            // btnElectronicLoadsPanel
+            // 
+            this.btnElectronicLoadsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnElectronicLoadsPanel, "btnElectronicLoadsPanel");
+            this.btnElectronicLoadsPanel.FlatAppearance.BorderSize = 0;
+            this.btnElectronicLoadsPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnElectronicLoadsPanel.Name = "btnElectronicLoadsPanel";
+            this.btnElectronicLoadsPanel.UseVisualStyleBackColor = false;
+            this.btnElectronicLoadsPanel.Click += new System.EventHandler(this.btnElectronicLoadsPanel_Click);
+            // 
+            // btnPowerSuppliesPanel
+            // 
+            this.btnPowerSuppliesPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnPowerSuppliesPanel, "btnPowerSuppliesPanel");
+            this.btnPowerSuppliesPanel.FlatAppearance.BorderSize = 0;
+            this.btnPowerSuppliesPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnPowerSuppliesPanel.Name = "btnPowerSuppliesPanel";
+            this.btnPowerSuppliesPanel.UseVisualStyleBackColor = false;
+            this.btnPowerSuppliesPanel.Click += new System.EventHandler(this.btnPowerSuppliesPanel_Click);
+            // 
+            // btnAcPowerSuppliesPanel
+            // 
+            this.btnAcPowerSuppliesPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnAcPowerSuppliesPanel, "btnAcPowerSuppliesPanel");
+            this.btnAcPowerSuppliesPanel.FlatAppearance.BorderSize = 0;
+            this.btnAcPowerSuppliesPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnAcPowerSuppliesPanel.Name = "btnAcPowerSuppliesPanel";
+            this.btnAcPowerSuppliesPanel.UseVisualStyleBackColor = false;
+            this.btnAcPowerSuppliesPanel.Click += new System.EventHandler(this.btnAcPowerSuppliesPanel_Click);
+            // 
+            // btnCircuitDiagramsPanel
+            // 
+            this.btnCircuitDiagramsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            resources.ApplyResources(this.btnCircuitDiagramsPanel, "btnCircuitDiagramsPanel");
+            this.btnCircuitDiagramsPanel.FlatAppearance.BorderSize = 0;
+            this.btnCircuitDiagramsPanel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnCircuitDiagramsPanel.Name = "btnCircuitDiagramsPanel";
+            this.btnCircuitDiagramsPanel.UseVisualStyleBackColor = false;
+            this.btnCircuitDiagramsPanel.Click += new System.EventHandler(this.btnCircuitDiagramsPanel_Click);
+            // 
+            // panelCalibrationMenu
+            // 
+            resources.ApplyResources(this.panelCalibrationMenu, "panelCalibrationMenu");
+            this.panelCalibrationMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+            this.panelCalibrationMenu.Controls.Add(this.btnSpare4);
+            this.panelCalibrationMenu.Controls.Add(this.btnSpare3);
+            this.panelCalibrationMenu.Controls.Add(this.btnSpare2);
+            this.panelCalibrationMenu.Controls.Add(this.btnSpare1);
+            this.panelCalibrationMenu.Controls.Add(this.btnApsPanel);
+            this.panelCalibrationMenu.Controls.Add(this.btnPpsPanel);
+            this.panelCalibrationMenu.Name = "panelCalibrationMenu";
+            // 
+            // btnSpare4
+            // 
+            this.btnSpare4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnSpare4, "btnSpare4");
+            this.btnSpare4.FlatAppearance.BorderSize = 0;
+            this.btnSpare4.ForeColor = System.Drawing.Color.Black;
+            this.btnSpare4.Name = "btnSpare4";
+            this.btnSpare4.UseVisualStyleBackColor = false;
+            this.btnSpare4.Click += new System.EventHandler(this.btnSpare4_Click);
+            // 
+            // btnSpare3
+            // 
+            this.btnSpare3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnSpare3, "btnSpare3");
+            this.btnSpare3.FlatAppearance.BorderSize = 0;
+            this.btnSpare3.ForeColor = System.Drawing.Color.Black;
+            this.btnSpare3.Name = "btnSpare3";
+            this.btnSpare3.UseVisualStyleBackColor = false;
+            // 
+            // btnSpare2
+            // 
+            this.btnSpare2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnSpare2, "btnSpare2");
+            this.btnSpare2.FlatAppearance.BorderSize = 0;
+            this.btnSpare2.ForeColor = System.Drawing.Color.Black;
+            this.btnSpare2.Name = "btnSpare2";
+            this.btnSpare2.UseVisualStyleBackColor = false;
+            // 
+            // btnSpare1
+            // 
+            this.btnSpare1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnSpare1, "btnSpare1");
+            this.btnSpare1.FlatAppearance.BorderSize = 0;
+            this.btnSpare1.ForeColor = System.Drawing.Color.Black;
+            this.btnSpare1.Name = "btnSpare1";
+            this.btnSpare1.UseVisualStyleBackColor = false;
+            this.btnSpare1.Click += new System.EventHandler(this.btnSpare1_Click);
+            // 
+            // btnApsPanel
+            // 
+            this.btnApsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnApsPanel, "btnApsPanel");
+            this.btnApsPanel.FlatAppearance.BorderSize = 0;
+            this.btnApsPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnApsPanel.Name = "btnApsPanel";
+            this.btnApsPanel.UseVisualStyleBackColor = false;
+            this.btnApsPanel.Click += new System.EventHandler(this.btnApsPanel_Click);
+            // 
+            // btnPpsPanel
+            // 
+            this.btnPpsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            resources.ApplyResources(this.btnPpsPanel, "btnPpsPanel");
+            this.btnPpsPanel.FlatAppearance.BorderSize = 0;
+            this.btnPpsPanel.ForeColor = System.Drawing.Color.Black;
+            this.btnPpsPanel.Name = "btnPpsPanel";
+            this.btnPpsPanel.UseVisualStyleBackColor = false;
+            this.btnPpsPanel.Click += new System.EventHandler(this.btnPpsPanel_Click);
+            // 
+            // btnAutoTestPanel
+            // 
+            this.btnAutoTestPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            resources.ApplyResources(this.btnAutoTestPanel, "btnAutoTestPanel");
+            this.btnAutoTestPanel.FlatAppearance.BorderSize = 0;
+            this.btnAutoTestPanel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnAutoTestPanel.Name = "btnAutoTestPanel";
+            this.btnAutoTestPanel.UseVisualStyleBackColor = false;
+            this.btnAutoTestPanel.Click += new System.EventHandler(this.btnPatTestPanel_Click_2);
+            // 
+            // btnPatTestPanel
+            // 
+            this.btnPatTestPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(147)))), ((int)(((byte)(207)))));
+            resources.ApplyResources(this.btnPatTestPanel, "btnPatTestPanel");
+            this.btnPatTestPanel.FlatAppearance.BorderSize = 0;
+            this.btnPatTestPanel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPatTestPanel.Name = "btnPatTestPanel";
+            this.btnPatTestPanel.UseVisualStyleBackColor = false;
+            this.btnPatTestPanel.Click += new System.EventHandler(this.btnPatTest_Click);
+            // 
+            // panelLogo
+            // 
+            this.panelLogo.Controls.Add(this.btnHomeScreenPanel);
+            resources.ApplyResources(this.panelLogo, "panelLogo");
+            this.panelLogo.Name = "panelLogo";
+            // 
+            // btnHomeScreenPanel
+            // 
+            resources.ApplyResources(this.btnHomeScreenPanel, "btnHomeScreenPanel");
+            this.btnHomeScreenPanel.FlatAppearance.BorderSize = 0;
+            this.btnHomeScreenPanel.Name = "btnHomeScreenPanel";
+            this.btnHomeScreenPanel.UseVisualStyleBackColor = true;
+            this.btnHomeScreenPanel.Click += new System.EventHandler(this.btnHomeScreenPanel_Click_3);
+            // 
+            // panelBaseForm
+            // 
+            this.panelBaseForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+            this.panelBaseForm.Controls.Add(this.pictureBox5);
+            resources.ApplyResources(this.panelBaseForm, "panelBaseForm");
+            this.panelBaseForm.Name = "panelBaseForm";
+            // 
+            // pictureBox5
+            // 
+            resources.ApplyResources(this.pictureBox5, "pictureBox5");
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.TabStop = false;
+            // 
+            // panelBckGrd
+            // 
+            this.panelBckGrd.BackColor = System.Drawing.Color.Maroon;
+            this.panelBckGrd.Controls.Add(this.picBoxMain);
+            resources.ApplyResources(this.panelBckGrd, "panelBckGrd");
+            this.panelBckGrd.Name = "panelBckGrd";
+            this.panelBckGrd.Paint += new System.Windows.Forms.PaintEventHandler(this.panelBckGrd_Paint);
+            // 
+            // picBoxMain
+            // 
+            this.picBoxMain.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.picBoxMain, "picBoxMain");
+            this.picBoxMain.Name = "picBoxMain";
+            this.picBoxMain.TabStop = false;
+            // 
+            // panelPatTest
+            // 
+            resources.ApplyResources(this.panelPatTest, "panelPatTest");
+            this.panelPatTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
+            this.panelPatTest.Controls.Add(this.gpPatAutoTEst);
+            this.panelPatTest.Controls.Add(this.gpPatTestCondition);
+            this.panelPatTest.Controls.Add(this.gpPatTestEquipment);
+            this.panelPatTest.Name = "panelPatTest";
+            this.panelPatTest.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPatTest_Paint);
+            // 
+            // gpPatAutoTEst
+            // 
+            this.gpPatAutoTEst.Controls.Add(this.btnIecLeadTest);
+            this.gpPatAutoTEst.Controls.Add(this.btnClassTwo);
+            this.gpPatAutoTEst.Controls.Add(this.btnClassOne);
+            resources.ApplyResources(this.gpPatAutoTEst, "gpPatAutoTEst");
+            this.gpPatAutoTEst.Name = "gpPatAutoTEst";
+            this.gpPatAutoTEst.TabStop = false;
+            // 
+            // btnIecLeadTest
+            // 
+            this.btnIecLeadTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(77)))), ((int)(((byte)(62)))));
+            resources.ApplyResources(this.btnIecLeadTest, "btnIecLeadTest");
+            this.btnIecLeadTest.ForeColor = System.Drawing.Color.White;
+            this.btnIecLeadTest.Name = "btnIecLeadTest";
+            this.btnIecLeadTest.UseVisualStyleBackColor = false;
+            this.btnIecLeadTest.Click += new System.EventHandler(this.btnIecLeadTest_Click);
+            // 
+            // btnClassTwo
+            // 
+            this.btnClassTwo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(77)))), ((int)(((byte)(62)))));
+            resources.ApplyResources(this.btnClassTwo, "btnClassTwo");
+            this.btnClassTwo.ForeColor = System.Drawing.Color.White;
+            this.btnClassTwo.Name = "btnClassTwo";
+            this.btnClassTwo.UseVisualStyleBackColor = false;
+            this.btnClassTwo.Click += new System.EventHandler(this.btnClassTwo_Click);
+            // 
+            // btnClassOne
+            // 
+            this.btnClassOne.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(77)))), ((int)(((byte)(62)))));
+            resources.ApplyResources(this.btnClassOne, "btnClassOne");
+            this.btnClassOne.ForeColor = System.Drawing.Color.White;
+            this.btnClassOne.Name = "btnClassOne";
+            this.btnClassOne.UseVisualStyleBackColor = false;
+            this.btnClassOne.Click += new System.EventHandler(this.btnClassOne_Click);
+            // 
+            // gpPatTestCondition
+            // 
+            this.gpPatTestCondition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
+            this.gpPatTestCondition.Controls.Add(this.richTextBoxPatTestCondition);
+            resources.ApplyResources(this.gpPatTestCondition, "gpPatTestCondition");
+            this.gpPatTestCondition.Name = "gpPatTestCondition";
+            this.gpPatTestCondition.TabStop = false;
+            this.gpPatTestCondition.Enter += new System.EventHandler(this.groupBox9_Enter);
+            // 
+            // richTextBoxPatTestCondition
+            // 
+            this.richTextBoxPatTestCondition.BackColor = System.Drawing.Color.WhiteSmoke;
+            resources.ApplyResources(this.richTextBoxPatTestCondition, "richTextBoxPatTestCondition");
+            this.richTextBoxPatTestCondition.Name = "richTextBoxPatTestCondition";
+            this.richTextBoxPatTestCondition.ReadOnly = true;
+            this.richTextBoxPatTestCondition.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            // 
+            // gpPatTestEquipment
+            // 
+            this.gpPatTestEquipment.Controls.Add(this.cmbSupplyVoltage);
+            this.gpPatTestEquipment.Controls.Add(this.textBoxVoltageRating);
+            this.gpPatTestEquipment.Controls.Add(this.cmbCableLength);
+            this.gpPatTestEquipment.Controls.Add(this.cmbCurrRating);
+            this.gpPatTestEquipment.Controls.Add(this.textBoxCurrentRating);
+            this.gpPatTestEquipment.Controls.Add(this.btnPatClose);
+            this.gpPatTestEquipment.Controls.Add(this.textBoxSelctCableLength);
+            this.gpPatTestEquipment.Controls.Add(this.progBarPatTest);
+            this.gpPatTestEquipment.Controls.Add(this.btnPatConnect);
+            this.gpPatTestEquipment.Controls.Add(this.textBoxGwComPort);
+            this.gpPatTestEquipment.Controls.Add(this.cmbBoxGwInstekUsb);
+            resources.ApplyResources(this.gpPatTestEquipment, "gpPatTestEquipment");
+            this.gpPatTestEquipment.Name = "gpPatTestEquipment";
+            this.gpPatTestEquipment.TabStop = false;
+            // 
+            // cmbSupplyVoltage
+            // 
+            this.cmbSupplyVoltage.FormattingEnabled = true;
+            this.cmbSupplyVoltage.Items.AddRange(new object[] {
+            resources.GetString("cmbSupplyVoltage.Items"),
+            resources.GetString("cmbSupplyVoltage.Items1")});
+            resources.ApplyResources(this.cmbSupplyVoltage, "cmbSupplyVoltage");
+            this.cmbSupplyVoltage.Name = "cmbSupplyVoltage";
+            this.cmbSupplyVoltage.SelectedIndexChanged += new System.EventHandler(this.cmbSupplyVoltage_SelectedIndexChanged);
+            // 
+            // textBoxVoltageRating
+            // 
+            resources.ApplyResources(this.textBoxVoltageRating, "textBoxVoltageRating");
+            this.textBoxVoltageRating.Name = "textBoxVoltageRating";
+            // 
+            // cmbCableLength
+            // 
+            this.cmbCableLength.FormattingEnabled = true;
+            this.cmbCableLength.Items.AddRange(new object[] {
+            resources.GetString("cmbCableLength.Items"),
+            resources.GetString("cmbCableLength.Items1"),
+            resources.GetString("cmbCableLength.Items2"),
+            resources.GetString("cmbCableLength.Items3"),
+            resources.GetString("cmbCableLength.Items4"),
+            resources.GetString("cmbCableLength.Items5"),
+            resources.GetString("cmbCableLength.Items6"),
+            resources.GetString("cmbCableLength.Items7"),
+            resources.GetString("cmbCableLength.Items8"),
+            resources.GetString("cmbCableLength.Items9"),
+            resources.GetString("cmbCableLength.Items10")});
+            resources.ApplyResources(this.cmbCableLength, "cmbCableLength");
+            this.cmbCableLength.Name = "cmbCableLength";
+            this.cmbCableLength.SelectedIndexChanged += new System.EventHandler(this.cmbCableLength_SelectedIndexChanged_1);
+            // 
+            // cmbCurrRating
+            // 
+            this.cmbCurrRating.FormattingEnabled = true;
+            this.cmbCurrRating.Items.AddRange(new object[] {
+            resources.GetString("cmbCurrRating.Items"),
+            resources.GetString("cmbCurrRating.Items1"),
+            resources.GetString("cmbCurrRating.Items2"),
+            resources.GetString("cmbCurrRating.Items3")});
+            resources.ApplyResources(this.cmbCurrRating, "cmbCurrRating");
+            this.cmbCurrRating.Name = "cmbCurrRating";
+            this.cmbCurrRating.SelectedIndexChanged += new System.EventHandler(this.cmbCurrRating_SelectedIndexChanged);
+            // 
+            // textBoxCurrentRating
+            // 
+            resources.ApplyResources(this.textBoxCurrentRating, "textBoxCurrentRating");
+            this.textBoxCurrentRating.Name = "textBoxCurrentRating";
+            this.textBoxCurrentRating.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
+            // 
+            // btnPatClose
+            // 
+            this.btnPatClose.BackColor = System.Drawing.Color.IndianRed;
+            resources.ApplyResources(this.btnPatClose, "btnPatClose");
+            this.btnPatClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.btnPatClose.Name = "btnPatClose";
+            this.btnPatClose.UseVisualStyleBackColor = false;
+            this.btnPatClose.Click += new System.EventHandler(this.btnPatClose_Click);
+            // 
+            // textBoxSelctCableLength
+            // 
+            resources.ApplyResources(this.textBoxSelctCableLength, "textBoxSelctCableLength");
+            this.textBoxSelctCableLength.Name = "textBoxSelctCableLength";
+            this.textBoxSelctCableLength.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
+            // 
+            // progBarPatTest
+            // 
+            resources.ApplyResources(this.progBarPatTest, "progBarPatTest");
+            this.progBarPatTest.Name = "progBarPatTest";
+            // 
+            // btnPatConnect
+            // 
+            this.btnPatConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(99)))), ((int)(((byte)(161)))));
+            resources.ApplyResources(this.btnPatConnect, "btnPatConnect");
+            this.btnPatConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.btnPatConnect.Name = "btnPatConnect";
+            this.btnPatConnect.UseVisualStyleBackColor = false;
+            this.btnPatConnect.Click += new System.EventHandler(this.btnPatConnect_Click);
+            // 
+            // textBoxGwComPort
+            // 
+            resources.ApplyResources(this.textBoxGwComPort, "textBoxGwComPort");
+            this.textBoxGwComPort.Name = "textBoxGwComPort";
+            // 
+            // cmbBoxGwInstekUsb
+            // 
+            this.cmbBoxGwInstekUsb.FormattingEnabled = true;
+            resources.ApplyResources(this.cmbBoxGwInstekUsb, "cmbBoxGwInstekUsb");
+            this.cmbBoxGwInstekUsb.Name = "cmbBoxGwInstekUsb";
+            this.cmbBoxGwInstekUsb.SelectedIndexChanged += new System.EventHandler(this.cmbBoxGwInstekUsb_SelectedIndexChanged_1);
+            // 
+            // GrBoxPpsAteConnect
+            // 
+            this.GrBoxPpsAteConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.GrBoxPpsAteConnect.Controls.Add(this.CmbBoxPacificSelect);
+            this.GrBoxPpsAteConnect.Controls.Add(this.TextBoxAddress);
+            this.GrBoxPpsAteConnect.Controls.Add(this.CmbBoxPacificUnit);
+            this.GrBoxPpsAteConnect.Controls.Add(this.TextBoxPpsSelectUut);
+            this.GrBoxPpsAteConnect.Controls.Add(this.CmbBoxN4LPrt);
+            this.GrBoxPpsAteConnect.Controls.Add(this.TextBoxPpsN4l);
+            this.GrBoxPpsAteConnect.Controls.Add(this.TextBoxPpsTrans);
+            this.GrBoxPpsAteConnect.Controls.Add(this.CmbBoxTrans);
+            resources.ApplyResources(this.GrBoxPpsAteConnect, "GrBoxPpsAteConnect");
+            this.GrBoxPpsAteConnect.Name = "GrBoxPpsAteConnect";
+            this.GrBoxPpsAteConnect.TabStop = false;
+            // 
+            // CmbBoxPacificSelect
+            // 
+            this.CmbBoxPacificSelect.FormattingEnabled = true;
+            resources.ApplyResources(this.CmbBoxPacificSelect, "CmbBoxPacificSelect");
+            this.CmbBoxPacificSelect.Name = "CmbBoxPacificSelect";
+            this.CmbBoxPacificSelect.SelectedIndexChanged += new System.EventHandler(this.CmbBoxPacificSelect_Click);
+            // 
+            // TextBoxAddress
+            // 
+            resources.ApplyResources(this.TextBoxAddress, "TextBoxAddress");
+            this.TextBoxAddress.Name = "TextBoxAddress";
+            this.TextBoxAddress.TextChanged += new System.EventHandler(this.TextBoxAddress_TextChanged);
+            // 
+            // CmbBoxPacificUnit
+            // 
+            this.CmbBoxPacificUnit.FormattingEnabled = true;
+            this.CmbBoxPacificUnit.Items.AddRange(new object[] {
+            resources.GetString("CmbBoxPacificUnit.Items"),
+            resources.GetString("CmbBoxPacificUnit.Items1"),
+            resources.GetString("CmbBoxPacificUnit.Items2"),
+            resources.GetString("CmbBoxPacificUnit.Items3"),
+            resources.GetString("CmbBoxPacificUnit.Items4")});
+            resources.ApplyResources(this.CmbBoxPacificUnit, "CmbBoxPacificUnit");
+            this.CmbBoxPacificUnit.Name = "CmbBoxPacificUnit";
+            this.CmbBoxPacificUnit.SelectedIndexChanged += new System.EventHandler(this.CmbBoxPacificUnit_Click);
+            // 
+            // TextBoxPpsSelectUut
+            // 
+            resources.ApplyResources(this.TextBoxPpsSelectUut, "TextBoxPpsSelectUut");
+            this.TextBoxPpsSelectUut.Name = "TextBoxPpsSelectUut";
+            this.TextBoxPpsSelectUut.TextChanged += new System.EventHandler(this.TextBoxPpsSelectUut_TextChanged);
+            // 
+            // CmbBoxN4LPrt
+            // 
+            this.CmbBoxN4LPrt.FormattingEnabled = true;
+            resources.ApplyResources(this.CmbBoxN4LPrt, "CmbBoxN4LPrt");
+            this.CmbBoxN4LPrt.Name = "CmbBoxN4LPrt";
+            this.CmbBoxN4LPrt.SelectedIndexChanged += new System.EventHandler(this.CmbBoxN4LPrt_Click);
+            // 
+            // TextBoxPpsN4l
+            // 
+            resources.ApplyResources(this.TextBoxPpsN4l, "TextBoxPpsN4l");
+            this.TextBoxPpsN4l.Name = "TextBoxPpsN4l";
+            this.TextBoxPpsN4l.TextChanged += new System.EventHandler(this.TextBoxPpsN4l_TextChanged);
+            // 
+            // TextBoxPpsTrans
+            // 
+            resources.ApplyResources(this.TextBoxPpsTrans, "TextBoxPpsTrans");
+            this.TextBoxPpsTrans.Name = "TextBoxPpsTrans";
+            this.TextBoxPpsTrans.TextChanged += new System.EventHandler(this.TextBoxPpsTrans_TextChanged);
+            // 
+            // CmbBoxTrans
+            // 
+            this.CmbBoxTrans.FormattingEnabled = true;
+            this.CmbBoxTrans.Items.AddRange(new object[] {
+            resources.GetString("CmbBoxTrans.Items"),
+            resources.GetString("CmbBoxTrans.Items1")});
+            resources.ApplyResources(this.CmbBoxTrans, "CmbBoxTrans");
+            this.CmbBoxTrans.Name = "CmbBoxTrans";
+            this.CmbBoxTrans.SelectedIndexChanged += new System.EventHandler(this.CmbBoxTrans_Click);
+            // 
+            // textBoxPpsEnterCaseNum
+            // 
+            this.textBoxPpsEnterCaseNum.AcceptsTab = true;
+            resources.ApplyResources(this.textBoxPpsEnterCaseNum, "textBoxPpsEnterCaseNum");
+            this.textBoxPpsEnterCaseNum.Name = "textBoxPpsEnterCaseNum";
+            this.textBoxPpsEnterCaseNum.TextChanged += new System.EventHandler(this.textBoxPpsEnterCaseNum_Click);
+            // 
+            // TextBoxPpsEnterPacificSerNum
+            // 
+            this.TextBoxPpsEnterPacificSerNum.AcceptsTab = true;
+            resources.ApplyResources(this.TextBoxPpsEnterPacificSerNum, "TextBoxPpsEnterPacificSerNum");
+            this.TextBoxPpsEnterPacificSerNum.Name = "TextBoxPpsEnterPacificSerNum";
+            this.TextBoxPpsEnterPacificSerNum.TextChanged += new System.EventHandler(this.TextBoxPpsEnterPacificSerNum_Click);
+            // 
+            // textBoxPpsCaseNum
+            // 
+            resources.ApplyResources(this.textBoxPpsCaseNum, "textBoxPpsCaseNum");
+            this.textBoxPpsCaseNum.Name = "textBoxPpsCaseNum";
+            this.textBoxPpsCaseNum.TextChanged += new System.EventHandler(this.textBoxPpsCaseNum_TextChanged);
+            // 
+            // TextBoxPpsPacificSerNum
+            // 
+            resources.ApplyResources(this.TextBoxPpsPacificSerNum, "TextBoxPpsPacificSerNum");
+            this.TextBoxPpsPacificSerNum.Name = "TextBoxPpsPacificSerNum";
+            // 
+            // BtnPpsConnect
+            // 
+            this.BtnPpsConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(99)))), ((int)(((byte)(161)))));
+            resources.ApplyResources(this.BtnPpsConnect, "BtnPpsConnect");
+            this.BtnPpsConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.BtnPpsConnect.Name = "BtnPpsConnect";
+            this.BtnPpsConnect.UseVisualStyleBackColor = false;
+            this.BtnPpsConnect.Click += new System.EventHandler(this.BtnPpsConnect_Click);
+            // 
+            // BtnPpsClose
+            // 
+            this.BtnPpsClose.BackColor = System.Drawing.Color.IndianRed;
+            resources.ApplyResources(this.BtnPpsClose, "BtnPpsClose");
+            this.BtnPpsClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.BtnPpsClose.Name = "BtnPpsClose";
+            this.BtnPpsClose.UseVisualStyleBackColor = false;
+            this.BtnPpsClose.Click += new System.EventHandler(this.BtnPpsClose_Click);
+            // 
+            // progBarPpsGpib
+            // 
+            resources.ApplyResources(this.progBarPpsGpib, "progBarPpsGpib");
+            this.progBarPpsGpib.Name = "progBarPpsGpib";
+            this.progBarPpsGpib.Click += new System.EventHandler(this.progBarPpsGpib_Click);
+            // 
+            // GrBoxPpsCalSet
+            // 
+            this.GrBoxPpsCalSet.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
+            resources.ApplyResources(this.GrBoxPpsCalSet, "GrBoxPpsCalSet");
+            this.GrBoxPpsCalSet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.GrBoxPpsCalSet.Controls.Add(this.GrBoxPpsTestPanel);
+            this.GrBoxPpsCalSet.Controls.Add(this.GrBoxPpsCertDetails);
+            this.GrBoxPpsCalSet.Controls.Add(this.GrBoxPpsAteData);
+            this.GrBoxPpsCalSet.Controls.Add(this.GrBoxPpsAteConnect);
+            this.GrBoxPpsCalSet.Name = "GrBoxPpsCalSet";
+            this.GrBoxPpsCalSet.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPpsAte_Paint);
+            // 
+            // GrBoxPpsTestPanel
+            // 
+            this.GrBoxPpsTestPanel.Controls.Add(this.BtnPpsClose);
+            this.GrBoxPpsTestPanel.Controls.Add(this.BtnPpsConnect);
+            this.GrBoxPpsTestPanel.Controls.Add(this.progBarPpsGpib);
+            this.GrBoxPpsTestPanel.Controls.Add(this.btnPpsRunTest);
+            resources.ApplyResources(this.GrBoxPpsTestPanel, "GrBoxPpsTestPanel");
+            this.GrBoxPpsTestPanel.Name = "GrBoxPpsTestPanel";
+            this.GrBoxPpsTestPanel.TabStop = false;
+            // 
+            // btnPpsRunTest
+            // 
+            this.btnPpsRunTest.BackColor = System.Drawing.Color.LightSalmon;
+            resources.ApplyResources(this.btnPpsRunTest, "btnPpsRunTest");
+            this.btnPpsRunTest.Name = "btnPpsRunTest";
+            this.btnPpsRunTest.UseVisualStyleBackColor = false;
+            this.btnPpsRunTest.Click += new System.EventHandler(this.btnPpsRunTest_Click);
+            // 
+            // GrBoxPpsCertDetails
+            // 
+            this.GrBoxPpsCertDetails.Controls.Add(this.textBoxPpsEnterPlantNum);
+            this.GrBoxPpsCertDetails.Controls.Add(this.textBoxPpsPlantNum);
+            this.GrBoxPpsCertDetails.Controls.Add(this.GrBoxPpsAteSoak);
+            this.GrBoxPpsCertDetails.Controls.Add(this.GrBoxPpsCelSettings);
+            this.GrBoxPpsCertDetails.Controls.Add(this.TextBoxPpsEnterCertNum);
+            this.GrBoxPpsCertDetails.Controls.Add(this.TextBoxPpsCertNum);
+            this.GrBoxPpsCertDetails.Controls.Add(this.textBoxPpsEnterName);
+            this.GrBoxPpsCertDetails.Controls.Add(this.textBoxPpsName);
+            this.GrBoxPpsCertDetails.Controls.Add(this.textBoxPpsEnterCaseNum);
+            this.GrBoxPpsCertDetails.Controls.Add(this.TextBoxPpsEnterPacificSerNum);
+            this.GrBoxPpsCertDetails.Controls.Add(this.textBoxPpsCaseNum);
+            this.GrBoxPpsCertDetails.Controls.Add(this.TextBoxPpsPacificSerNum);
+            resources.ApplyResources(this.GrBoxPpsCertDetails, "GrBoxPpsCertDetails");
+            this.GrBoxPpsCertDetails.Name = "GrBoxPpsCertDetails";
+            this.GrBoxPpsCertDetails.TabStop = false;
+            this.GrBoxPpsCertDetails.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // textBoxPpsEnterPlantNum
+            // 
+            this.textBoxPpsEnterPlantNum.AcceptsTab = true;
+            resources.ApplyResources(this.textBoxPpsEnterPlantNum, "textBoxPpsEnterPlantNum");
+            this.textBoxPpsEnterPlantNum.Name = "textBoxPpsEnterPlantNum";
+            this.textBoxPpsEnterPlantNum.TextChanged += new System.EventHandler(this.textBoxPpsEnterPlantNum_TextChanged);
+            // 
+            // textBoxPpsPlantNum
+            // 
+            resources.ApplyResources(this.textBoxPpsPlantNum, "textBoxPpsPlantNum");
+            this.textBoxPpsPlantNum.Name = "textBoxPpsPlantNum";
+            // 
+            // GrBoxPpsAteSoak
+            // 
+            this.GrBoxPpsAteSoak.Controls.Add(this.radioBtnNoSoak);
+            this.GrBoxPpsAteSoak.Controls.Add(this.radioBtnPreSoak);
+            resources.ApplyResources(this.GrBoxPpsAteSoak, "GrBoxPpsAteSoak");
+            this.GrBoxPpsAteSoak.Name = "GrBoxPpsAteSoak";
+            this.GrBoxPpsAteSoak.TabStop = false;
+            // 
+            // radioBtnNoSoak
+            // 
+            resources.ApplyResources(this.radioBtnNoSoak, "radioBtnNoSoak");
+            this.radioBtnNoSoak.Name = "radioBtnNoSoak";
+            this.radioBtnNoSoak.UseVisualStyleBackColor = true;
+            // 
+            // radioBtnPreSoak
+            // 
+            resources.ApplyResources(this.radioBtnPreSoak, "radioBtnPreSoak");
+            this.radioBtnPreSoak.Name = "radioBtnPreSoak";
+            this.radioBtnPreSoak.UseVisualStyleBackColor = true;
+            // 
+            // GrBoxPpsCelSettings
+            // 
+            this.GrBoxPpsCelSettings.Controls.Add(this.RadioBtnPps50Hz);
+            this.GrBoxPpsCelSettings.Controls.Add(this.RadioBtnPps400Hz);
+            resources.ApplyResources(this.GrBoxPpsCelSettings, "GrBoxPpsCelSettings");
+            this.GrBoxPpsCelSettings.Name = "GrBoxPpsCelSettings";
+            this.GrBoxPpsCelSettings.TabStop = false;
+            // 
+            // RadioBtnPps50Hz
+            // 
+            resources.ApplyResources(this.RadioBtnPps50Hz, "RadioBtnPps50Hz");
+            this.RadioBtnPps50Hz.Name = "RadioBtnPps50Hz";
+            this.RadioBtnPps50Hz.UseVisualStyleBackColor = true;
+            this.RadioBtnPps50Hz.CheckedChanged += new System.EventHandler(this.RadioBtnPps50Hz_CheckedChanged);
+            // 
+            // RadioBtnPps400Hz
+            // 
+            resources.ApplyResources(this.RadioBtnPps400Hz, "RadioBtnPps400Hz");
+            this.RadioBtnPps400Hz.Name = "RadioBtnPps400Hz";
+            this.RadioBtnPps400Hz.UseVisualStyleBackColor = true;
+            this.RadioBtnPps400Hz.CheckedChanged += new System.EventHandler(this.RadioBtnPps400Hz_CheckedChanged);
+            // 
+            // TextBoxPpsEnterCertNum
+            // 
+            this.TextBoxPpsEnterCertNum.AcceptsTab = true;
+            resources.ApplyResources(this.TextBoxPpsEnterCertNum, "TextBoxPpsEnterCertNum");
+            this.TextBoxPpsEnterCertNum.Name = "TextBoxPpsEnterCertNum";
+            this.TextBoxPpsEnterCertNum.TextChanged += new System.EventHandler(this.TextBoxPpsEnterCertNum_Click);
+            // 
+            // TextBoxPpsCertNum
+            // 
+            resources.ApplyResources(this.TextBoxPpsCertNum, "TextBoxPpsCertNum");
+            this.TextBoxPpsCertNum.Name = "TextBoxPpsCertNum";
+            // 
+            // textBoxPpsEnterName
+            // 
+            this.textBoxPpsEnterName.AcceptsTab = true;
+            resources.ApplyResources(this.textBoxPpsEnterName, "textBoxPpsEnterName");
+            this.textBoxPpsEnterName.Name = "textBoxPpsEnterName";
+            this.textBoxPpsEnterName.TextChanged += new System.EventHandler(this.textBoxPpsEnterName_Click);
+            // 
+            // textBoxPpsName
+            // 
+            resources.ApplyResources(this.textBoxPpsName, "textBoxPpsName");
+            this.textBoxPpsName.Name = "textBoxPpsName";
+            this.textBoxPpsName.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // GrBoxPpsAteData
+            // 
+            this.GrBoxPpsAteData.Controls.Add(this.RichTextPpsAte);
+            resources.ApplyResources(this.GrBoxPpsAteData, "GrBoxPpsAteData");
+            this.GrBoxPpsAteData.Name = "GrBoxPpsAteData";
+            this.GrBoxPpsAteData.TabStop = false;
+            this.GrBoxPpsAteData.Enter += new System.EventHandler(this.GrBoxPpsAteData_Enter);
+            // 
+            // RichTextPpsAte
+            // 
+            resources.ApplyResources(this.RichTextPpsAte, "RichTextPpsAte");
+            this.RichTextPpsAte.Name = "RichTextPpsAte";
+            this.RichTextPpsAte.ReadOnly = true;
+            this.RichTextPpsAte.TextChanged += new System.EventHandler(this.RichTextPpsATE_TextChanged);
+            // 
+            // frmMain
+            // 
+            resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.GrBoxPpsCalSet);
+            this.Controls.Add(this.panelPatTest);
+            this.Controls.Add(this.panelBckGrd);
+            this.Controls.Add(this.panelBaseForm);
+            this.Controls.Add(this.panelSideMenu);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MinimizeBox = false;
+            this.Name = "frmMain";
+            this.TransparencyKey = System.Drawing.Color.LightPink;
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.panelSideMenu.ResumeLayout(false);
+            this.panelAboutUsMenu.ResumeLayout(false);
+            this.panelProductMenu.ResumeLayout(false);
+            this.panelCalibrationMenu.ResumeLayout(false);
+            this.panelLogo.ResumeLayout(false);
+            this.panelBaseForm.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.panelBckGrd.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxMain)).EndInit();
+            this.panelPatTest.ResumeLayout(false);
+            this.gpPatAutoTEst.ResumeLayout(false);
+            this.gpPatTestCondition.ResumeLayout(false);
+            this.gpPatTestEquipment.ResumeLayout(false);
+            this.gpPatTestEquipment.PerformLayout();
+            this.GrBoxPpsAteConnect.ResumeLayout(false);
+            this.GrBoxPpsAteConnect.PerformLayout();
+            this.GrBoxPpsCalSet.ResumeLayout(false);
+            this.GrBoxPpsTestPanel.ResumeLayout(false);
+            this.GrBoxPpsCertDetails.ResumeLayout(false);
+            this.GrBoxPpsCertDetails.PerformLayout();
+            this.GrBoxPpsAteSoak.ResumeLayout(false);
+            this.GrBoxPpsAteSoak.PerformLayout();
+            this.GrBoxPpsCelSettings.ResumeLayout(false);
+            this.GrBoxPpsCelSettings.PerformLayout();
+            this.GrBoxPpsAteData.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Panel panelSideMenu;
+        private System.Windows.Forms.Panel panelMetersMenu;
+        private System.Windows.Forms.Button btnMeters;
+        private System.Windows.Forms.Button btnApsM2003;
+        private System.Windows.Forms.Button btnFluke8508A;
+        private System.Windows.Forms.Button btnKeysight34471A;
+        private System.Windows.Forms.Button btnVitrek920A;
+        private System.Windows.Forms.Panel panelLogo;
+        private System.Windows.Forms.Button btnPpsPanel;
+        private System.Windows.Forms.Button btnPowerRatingsPanel;
+        private System.Windows.Forms.Button btnAssemblyDrawingsPanel;
+        private System.Windows.Forms.Button btnMCodesPanel;
+        private System.Windows.Forms.Panel panelProductMenu;
+        private System.Windows.Forms.Button btnAcPowerSuppliesPanel;
+        private System.Windows.Forms.Panel panelBaseForm;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Button btnHomeScreenPanel;
+        private System.Windows.Forms.Panel panelBckGrd;
+        private System.Windows.Forms.PictureBox picBoxMain;
+        private System.Windows.Forms.Button btnAutoTestPanel;
+        private System.Windows.Forms.Button btnPatTestPanel;
+        private System.Windows.Forms.Panel panelCalibrationMenu;
+        private System.Windows.Forms.Button btnCircuitDiagramsPanel;
+        private System.Windows.Forms.Panel panelAboutUsMenu;
+        private System.Windows.Forms.Button btnProductSpecificationPanel;
+        private System.Windows.Forms.Button btnElectronicLoadsPanel;
+        private System.Windows.Forms.Button btnPowerSuppliesPanel;
+        private System.Windows.Forms.Button btnSpare4;
+        private System.Windows.Forms.Button btnSpare3;
+        private System.Windows.Forms.Button btnSpare2;
+        private System.Windows.Forms.Button btnSpare1;
+        private System.Windows.Forms.Button btnApsPanel;
+        private System.Windows.Forms.Panel panelPatTest;
+        private System.Windows.Forms.GroupBox gpPatTestEquipment;
+        private System.Windows.Forms.Button btnPatClose;
+        private System.Windows.Forms.ProgressBar progBarPatTest;
+        private System.Windows.Forms.Button btnPatConnect;
+        private System.Windows.Forms.TextBox textBoxGwComPort;
+        private System.Windows.Forms.ComboBox cmbBoxGwInstekUsb;
+        private System.Windows.Forms.GroupBox gpPatAutoTEst;
+        private System.Windows.Forms.TextBox textBoxSelctCableLength;
+        private System.Windows.Forms.GroupBox gpPatTestCondition;
+        private System.Windows.Forms.RichTextBox richTextBoxPatTestCondition;
+        private System.Windows.Forms.TextBox textBoxCurrentRating;
+        private System.Windows.Forms.ComboBox cmbCurrRating;
+        private System.Windows.Forms.ComboBox cmbCableLength;
+        private System.Windows.Forms.ComboBox cmbSupplyVoltage;
+        private System.Windows.Forms.TextBox textBoxVoltageRating;
+        private System.Windows.Forms.Button btnClassTwo;
+        private System.Windows.Forms.Button btnClassOne;
+        private System.Windows.Forms.Button btnIecLeadTest;
+        private System.Windows.Forms.GroupBox GrBoxPpsAteConnect;
+        private System.Windows.Forms.Button BtnPpsConnect;
+        private System.Windows.Forms.Button BtnPpsClose;
+        private System.Windows.Forms.ProgressBar progBarPpsGpib;
+        private System.Windows.Forms.ComboBox CmbBoxPacificUnit;
+        private System.Windows.Forms.TextBox TextBoxPpsSelectUut;
+        private System.Windows.Forms.ComboBox CmbBoxN4LPrt;
+        private System.Windows.Forms.TextBox TextBoxPpsN4l;
+        private System.Windows.Forms.TextBox TextBoxPpsTrans;
+        private System.Windows.Forms.ComboBox CmbBoxTrans;
+        private System.IO.Ports.SerialPort serPpsRs232;
+        private System.IO.Ports.SerialPort serNewtonsRs232_4th;
+        private System.IO.Ports.SerialPort serNewtonsGpib_4th;
+        private System.Windows.Forms.ComboBox CmbBoxPacificSelect;
+        private System.Windows.Forms.TextBox TextBoxAddress;
+        private System.Windows.Forms.Panel GrBoxPpsCalSet;
+        private System.Windows.Forms.Button btnPpsRunTest;
+        private System.Windows.Forms.RichTextBox RichTextPpsAte;
+        private System.Windows.Forms.GroupBox GrBoxPpsAteData;
+        private System.Windows.Forms.TextBox textBoxPpsCaseNum;
+        private System.Windows.Forms.TextBox TextBoxPpsPacificSerNum;
+        private System.Windows.Forms.TextBox textBoxPpsEnterCaseNum;
+        private System.Windows.Forms.TextBox TextBoxPpsEnterPacificSerNum;
+        private System.Windows.Forms.GroupBox GrBoxPpsCertDetails;
+        private System.Windows.Forms.RadioButton RadioBtnPps50Hz;
+        private System.Windows.Forms.RadioButton RadioBtnPps400Hz;
+        private System.Windows.Forms.TextBox textBoxPpsName;
+        private System.Windows.Forms.TextBox textBoxPpsEnterName;
+        private System.Windows.Forms.TextBox TextBoxPpsEnterCertNum;
+        private System.Windows.Forms.TextBox TextBoxPpsCertNum;
+        private System.Windows.Forms.GroupBox GrBoxPpsCelSettings;
+        private System.Windows.Forms.GroupBox GrBoxPpsAteSoak;
+        private System.Windows.Forms.RadioButton radioBtnNoSoak;
+        private System.Windows.Forms.RadioButton radioBtnPreSoak;
+        private System.Windows.Forms.TextBox textBoxPpsEnterPlantNum;
+        private System.Windows.Forms.TextBox textBoxPpsPlantNum;
+        private System.Windows.Forms.GroupBox GrBoxPpsTestPanel;
+    }
+}
+

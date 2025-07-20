@@ -1,0 +1,10 @@
+/home/bob43/CalTestGUIW/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttribute.cs
+/home/bob43/CalTestGUIW/obj/Debug/CalTestGUI.frmMain.resources
+/home/bob43/CalTestGUIW/obj/Debug/CalTestGUI.Properties.Resources.resources
+/home/bob43/CalTestGUIW/obj/Debug/CalTestGUI.exe
+/home/bob43/CalTestGUIW/obj/Debug/CalTestGUI.pdb
+/home/bob43/CalTestGUIW/bin/Debug/FontAwesome.Sharp.dll
+/home/bob43/CalTestGUIW/bin/Debug/Ivi.Visa.dll
+/home/bob43/CalTestGUIW/bin/Debug/Microsoft.VisualStudio.Tools.Applications.Runtime.dll
+/home/bob43/CalTestGUIW/bin/Debug/NationalInstruments.NI4882.dll
+/home/bob43/CalTestGUIW/bin/Debug/NationalInstruments.Visa.dll

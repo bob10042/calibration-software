@@ -1,0 +1,118 @@
+CalTestGUI - Complete VISA Driver Package
+=========================================
+
+CORE VISA RUNTIME (✓ Included):
+-------------------------------
+Ivi.Visa.dll                     253,336 bytes - IVI Foundation VISA.NET
+NationalInstruments.Visa.dll     127,368 bytes - NI VISA.NET wrapper
+NationalInstruments.NI4882.dll    98,304 bytes - NI-488.2 GPIB support
+nivisa64.dll                     248,928 bytes - NI-VISA 64-bit runtime
+visa32.dll                         7,680 bytes - VISA 32-bit compatibility
+
+VISUAL C++ REDISTRIBUTABLES (✓ Included):
+-----------------------------------------
+msvcp140.dll                     575,592 bytes - VC++ 2015-2019 Redistributable
+msvcr120.dll                     963,232 bytes - VC++ 2013 Redistributable  
+vcruntime140.dll                 120,432 bytes - VC++ Runtime
+
+MANUFACTURER-SPECIFIC DRIVERS (Optional):
+-----------------------------------------
+These can be downloaded separately for enhanced support:
+
+KEYSIGHT/AGILENT:
+- Keysight IO Libraries Suite
+- AgVisa32.dll
+- AgVisa64.dll  
+- sicl32.dll (legacy SICL support)
+
+ROHDE & SCHWARZ:
+- RsVisa.dll
+- RsInstrument.dll
+
+TEKTRONIX:
+- TekVisa.dll
+- TekVisa64.dll
+
+RIGOL:
+- RigolVisa.dll
+- rigol_visa.dll
+
+FLUKE:
+- FlukeVisa.dll (some models)
+
+YOKOGAWA:
+- YokogawaVisa.dll
+
+ADDITIONAL INTERFACE DRIVERS:
+----------------------------
+SERIAL/USB-SERIAL:
+- Built into Windows (no additional drivers needed)
+- FTDI drivers (for FTDI-based serial adapters)
+- Prolific drivers (for Prolific-based adapters)
+
+USB-TMC:
+- Native Windows USB support
+- Manufacturer-specific USB drivers
+
+GPIB CARDS:
+- NI GPIB cards: Full support via NI4882.dll ✓
+- Keysight GPIB: May need Keysight IO Libraries
+- Other GPIB: Check manufacturer documentation
+
+ETHERNET/LAN:
+- Native Windows TCP/IP stack ✓
+- No additional drivers needed
+
+DRIVER COMPATIBILITY MATRIX:
+===========================
+
+INSTRUMENT TYPE          | INCLUDED SUPPORT | OPTIMAL SETUP
+-------------------------|------------------|------------------
+NI Instruments (USB)    | ✓ Full          | + NI-VISA Runtime
+NI Instruments (GPIB)   | ✓ Full          | + NI-VISA Runtime  
+Keysight USB            | ✓ Basic         | + Keysight IO Suite
+Keysight GPIB           | ✓ Full          | + Keysight IO Suite
+Fluke USB               | ✓ Basic         | + NI-VISA Runtime
+Fluke Serial            | ✓ Full          | + NI-VISA Runtime
+Rohde & Schwarz USB     | ✓ Basic         | + R&S VISA
+Rohde & Schwarz GPIB    | ✓ Full          | + R&S VISA
+Tektronix USB           | ✓ Basic         | + OpenChoice
+Tektronix GPIB          | ✓ Full          | + OpenChoice
+Generic USBTMC          | ✓ Full          | Included
+Generic Serial          | ✓ Full          | Included
+Generic GPIB            | ✓ Full          | Included
+Generic Ethernet        | ✓ Full          | Included
+
+INSTALLATION PRIORITIES:
+=======================
+
+ESSENTIAL (Already Included):
+- IVI VISA.NET ✓
+- NI-VISA Runtime ✓
+- NI-488.2 GPIB ✓
+
+RECOMMENDED (External Download):
+- NI-VISA Full Runtime (enhanced USB/Serial support)
+- Windows USB drivers (automatic via Windows Update)
+
+MANUFACTURER-SPECIFIC (As Needed):
+- Keysight IO Libraries (for Keysight instruments)
+- Rohde & Schwarz VISA (for R&S instruments)
+- Tektronix OpenChoice (for Tektronix instruments)
+
+TESTING CHECKLIST:
+==================
+□ Launch CalTestGUI
+□ Navigate to Meters section  
+□ Click any meter button
+□ Verify VISA resource dropdown populates
+□ Test connection to available instrument
+□ Verify successful identification query
+□ Check template opens correctly
+
+If any step fails, refer to VISA_DRIVERS_GUIDE.md for troubleshooting.
+
+TOTAL PACKAGE SIZE: ~2.5 MB (included drivers)
+DISK SPACE NEEDED: ~10 MB (with full NI-VISA installation)
+
+Last Updated: July 13, 2025

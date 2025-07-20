@@ -1,0 +1,3 @@
+@echo off
+echo Running CalTestGUI build with PowerShell 7...
+"C:\Program Files\PowerShell\7\pwsh.exe" -ExecutionPolicy Bypass -File "build_with_ps7.ps1" %*
