@@ -1,0 +1,2 @@
+C:\Program Files\National Instruments\Shared\SLCPCommon
+C:\Program Files\IVI Foundation\VISA\Microsoft.NET\Framework64\v4.0.30319\NI VISA.NET 24.8

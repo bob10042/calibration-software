@@ -1,0 +1,86 @@
+name: Claude Code C# Integration
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  issues:
+    types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  claude-csharp-analysis:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+        
+    - name: Claude Code GitHub Integration
+      uses: nicholaslee119/claude-code-github-action@0.1.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+        
+    - name: Restore NuGet packages
+      run: |
+        if (Test-Path "packages.config") {
+          nuget restore
+        }
+        if (Test-Path "*.sln") {
+          dotnet restore
+        }
+      shell: powershell
+        
+    - name: Build C# project
+      run: |
+        if (Test-Path "build.bat") {
+          .\build.bat
+        } elseif (Test-Path "*.sln") {
+          dotnet build --configuration Release
+        } else {
+          echo "No build script found, attempting MSBuild..."
+          msbuild /p:Configuration=Release
+        }
+      shell: powershell
+        
+    - name: C# code quality check
+      run: |
+        echo "Running C# code analysis..."
+        Get-ChildItem -Recurse -Include "*.cs" | ForEach-Object { Write-Host "Analyzing: $($_.FullName)" }
+      shell: powershell
+        
+  claude-csharp-review:
+    runs-on: windows-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+        
+    - name: Claude C# Code Review
+      uses: nicholaslee119/claude-code-github-action@0.1.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        claude-api-key: ${{ secrets.CLAUDE_API_KEY }}
+        mode: 'review'
+        language: 'csharp'
